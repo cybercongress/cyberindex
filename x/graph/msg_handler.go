@@ -21,7 +21,7 @@ func HandleMsg(
 	}
 	switch graphMsg := msg.(type) {
 	case *graphtypes.MsgCyberlink:
-		return db.SaveCyberlink(
+		return db.SaveCyberlinks(
 			graphMsg.Links,
 			graphMsg.Address,
 			tx.Timestamp,
