@@ -1,11 +1,10 @@
-FROM golang:latest
+FROM golang:1.15.12
 
 WORKDIR /app
 
 COPY go.mod go.sum ./
 
-RUN go mod download \ 
-&& apt install make
+RUN apt install make
 
 COPY . .
 
