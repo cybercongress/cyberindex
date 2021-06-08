@@ -1,11 +1,12 @@
-package graph
+package resources
 
 import (
 	"encoding/json"
 
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
+	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
+	"github.com/desmos-labs/juno/modules/messages"
 	"google.golang.org/grpc"
 
 	"github.com/desmos-labs/juno/modules"
@@ -19,21 +20,32 @@ import (
 var _ modules.Module = &Module{}
 
 type Module struct {
+	messagesParser messages.MessageAddressesParser
 	encodingConfig *params.EncodingConfig
-	graphClient    graphtypes.QueryClient
+	graphClient    resourcestypes.QueryClient
 	db             *database.CyberDb
 }
 
-func NewModule(encodingConfig *params.EncodingConfig, grpcConnection *grpc.ClientConn, db *database.CyberDb) *Module {
+func NewModule(
+	messagesParser messages.MessageAddressesParser,
+	encodingConfig *params.EncodingConfig,
+	grpcConnection *grpc.ClientConn,
+	db *database.CyberDb,
+) *Module {
 	return &Module{
+		messagesParser: messagesParser,
 		encodingConfig: encodingConfig,
-		graphClient:    graphtypes.NewQueryClient(grpcConnection),
+		graphClient:    resourcestypes.NewQueryClient(grpcConnection),
 		db:             db,
 	}
 }
 
 func (m *Module) Name() string {
-	return "graph"
+	return "resources"
+}
+
+func (m *Module) DownloadState(height int64) error {
+	return nil
 }
 
 func (m *Module) HandleGenesis(_ *tmtypes.GenesisDoc, appState map[string]json.RawMessage) error {

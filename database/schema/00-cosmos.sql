@@ -64,7 +64,7 @@ CREATE TABLE message
 CREATE INDEX message_transaction_hash_index ON message (transaction_hash);
 
 /**
- * This function is used to find all the messages that involve any of the given addresses and have
+ * This function is used to find all the utils that involve any of the given addresses and have
  * type that is one of the specified types.
  */
 CREATE FUNCTION messages_by_address(
@@ -78,7 +78,12 @@ SELECT message.transaction_hash, message.index, message.type, message.value, mes
 FROM message
          JOIN transaction t on message.transaction_hash = t.hash
 WHERE (cardinality(types) = 0 OR type = ANY (types))
-  AND addresses && involved_accounts_addresses
+          AND addresses && involved_accounts_addresses
 ORDER BY height DESC
 LIMIT "limit" OFFSET "offset"
 $$ LANGUAGE sql STABLE;
+
+CREATE TABLE pruning
+(
+    last_pruned_height BIGINT NOT NULL
+);

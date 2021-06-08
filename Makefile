@@ -23,9 +23,8 @@ BUILD_FLAGS := -ldflags '$(LD_FLAGS)'
 ###############################################################################
 
 build: go.sum
-	@echo "building bdjuno binary..."
+	@echo "building cyberindex binary..."
 	@go build -mod=readonly $(BUILD_FLAGS) -o build/cyberindex ./cmd/cyberindex
-#	@go build $(BUILD_FLAGS) -o build/cyberindex ./cmd/cyberindex
 .PHONY: build
 
 ###############################################################################
@@ -35,5 +34,4 @@ build: go.sum
 install: go.sum
 	@echo "installing cyberindex binary..."
 	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/cyberindex
-#	@go install $(BUILD_FLAGS) ./cmd/bdjuno
 .PHONY: install
