@@ -1,27 +1,32 @@
 package main
 
 import (
+	"github.com/cybercongress/cyberindex/modules"
 	"github.com/desmos-labs/juno/cmd"
-	juno "github.com/desmos-labs/juno/types"
+	"github.com/forbole/bdjuno/types/config"
 
+	cyberapp "github.com/cybercongress/go-cyber/app"
+	initcmd "github.com/desmos-labs/juno/cmd/init"
+	parsecmd "github.com/desmos-labs/juno/cmd/parse"
 	"github.com/forbole/bdjuno/database"
-
-	"github.com/cybercongress/cyberindex/x"
-
-	"github.com/cybercongress/go-cyber/app"
 )
 
 func main() {
-	executor := cmd.BuildDefaultExecutor(
-		"cyberindex",
-		x.NewModulesRegistrar(
-			x.CyberMessageAddressesParser,
-		),
-		juno.DefaultSetup,
-		app.MakeTestEncodingConfig,
-		database.Builder,
-	)
+	initCfg := initcmd.NewConfig().
+		WithConfigFlagSetup(config.SetupConfigFlags).
+		WithConfigCreator(config.CreateConfig)
 
+	parseCfg := parsecmd.NewConfig().
+		WithConfigParser(config.ParseConfig).
+		WithRegistrar(modules.NewRegistrar()).
+		WithDBBuilder(database.Builder).
+		WithEncodingConfigBuilder(cyberapp.MakeTestEncodingConfig)
+
+	cfg := cmd.NewConfig("cyberindex").
+		WithInitConfig(initCfg).
+		WithParseConfig(parseCfg)
+
+	executor := cmd.BuildDefaultExecutor(cfg)
 	err := executor.Execute()
 	if err != nil {
 		panic(err)

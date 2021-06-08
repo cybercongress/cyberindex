@@ -5,5 +5,5 @@ import (
 )
 
 type CyberDb struct {
-	*database.BigDipperDb
+	*database.Db
 }
