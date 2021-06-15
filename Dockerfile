@@ -23,4 +23,6 @@ RUN make build
 
 RUN cp ./build/cyberindex /usr/local/bin/
 
-CMD cyberindex parse config.toml 
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["./start_script.sh"]
