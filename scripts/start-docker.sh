@@ -1,8 +1,9 @@
 #! /bin/bash
 
-read -p "Please put use your onw passwords in .env file. \n Do you want to proceed with current .env?" -n 1 -r
-echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ]]
+echo "Please put use your onw passwords in .env file. Do you want to proceed with current .env (y / n)?"
+read -r  CONT
+echo
+if [ "$CONT" = "y" ]
 then
     # temporeraly import variables
     export $(cat .env)
@@ -29,5 +30,7 @@ then
 
     docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
 
+else
+    echo "Done."
 fi
 
