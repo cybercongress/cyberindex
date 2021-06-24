@@ -1,26 +1,33 @@
 #! /bin/bash
-# temporeraly import variables
-export $(cat .env)
 
-# build cyberindexer and run it in container
-docker build -t cyberindex:latest .
+read -p "Please put use your onw passwords in .env file. \n Do you want to proceed with current .env?" -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    # temporeraly import variables
+    export $(cat .env)
 
-# run postgres and hasura in containers
-docker-compose up -d postgres 
-sleep 10
+    # build cyberindexer and run it in container
+    docker build -t cyberindex:latest .
 
-docker-compose up -d graphql-engine 
-sleep 10
+    # run postgres and hasura in containers
+    docker-compose up -d postgres 
+    sleep 10
 
-# init database with basic tables
-docker exec -ti cyberindex_postgres psql -f /root/schema/00-cosmos.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-docker exec -ti cyberindex_postgres psql -f /root/schema/01-auth.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-docker exec -ti cyberindex_postgres psql -f /root/schema/02-bank.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-docker exec -ti cyberindex_postgres psql -f /root/schema/03-modules.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-docker exec -ti cyberindex_postgres psql -f /root/schema/04-graph.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker-compose up -d graphql-engine 
+    sleep 10
 
-docker exec -ti cyberindex_postgres psql -f /root/schema/05-energy.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-docker exec -ti cyberindex_postgres psql -f /root/schema/06-resources.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    # init database with basic tables
+    docker exec -ti cyberindex_postgres psql -f /root/schema/00-cosmos.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/01-auth.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/02-bank.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/03-modules.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/04-graph.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
-docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
+    docker exec -ti cyberindex_postgres psql -f /root/schema/05-energy.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/06-resources.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+
+    docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
+
+fi
 

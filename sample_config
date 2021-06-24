@@ -1,0 +1,39 @@
+[cosmos]
+  prefix = "cyber"
+  modules = [
+    "modules",
+    "auth",
+    "bank",
+    "messages",
+    "graph",
+    "energy",
+    "resources"
+  ]
+
+[database]
+  host = "localhost"
+  name = "cyberindex"
+  user = "cyber"
+  password = "password"
+  port = 5432
+  schema = "public"
+  ssl_mode = "disable"
+
+[grpc]
+  address = "localhost:9090"
+  insecure = true
+
+[logging]
+  format = "json"
+  level = "debug"
+
+[parsing]
+  fast_sync = false
+  listen_new_blocks = true
+  parse_old_blocks = true
+  start_height = 0
+  workers = 5
+  parse_genesis = true
+
+[rpc]
+  address = "http://localhost:26657"
