@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/cosmos/cosmos-sdk v0.42.5
-	github.com/cybercongress/go-cyber v0.2.0-alpha1.0.20210607083035-3971386c95b9
+	github.com/cybercongress/go-cyber v0.2.0-beta1
 	github.com/desmos-labs/juno v0.0.0-20210513082948-fad7f160e2cd
 	github.com/forbole/bdjuno v0.0.0-20210603080009-7adc4516ebe7
 	github.com/lib/pq v1.10.2
