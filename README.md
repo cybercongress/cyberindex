@@ -6,7 +6,13 @@ Run:
 ```
 cyberindex parse
 ```
-Example configuration in config.toml, put to .cyberindex in user's home dir 
+Example configuration in sample_config, put to .cyberindex/config.toml in user's home dir 
+
+To run in Docker fill `.env`, then:
+
+```
+make docker
+```
 
 cyberindex run selected indexers from BDJuno, see schemas and registrar.go
 
