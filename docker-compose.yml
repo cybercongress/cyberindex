@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+    postgres:
+        image: postgres:latest
+        restart: always
+        container_name: cyberindex_postgres
+        volumes:
+            - $HOME/.cyberindex/postgres:/var/lib/postgresql/data
+            - ./database/schema/:/root/schema
+        environment:
+            - POSTGRES_DB=${POSTGRES_DB_NAME}
+            - POSTGRES_USER=${POSTGRES_USER_NAME}
+            - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+        networks:
+            cyberindex-net:
+                ipv4_address: 172.28.1.2
+        ports:
+            - 127.0.0.1:${POSTGRES_DB_PORT}:5432
+    graphql-engine:
+        image: hasura/graphql-engine:latest
+        restart: always
+        container_name: cyberindex_hasura
+        depends_on:
+            - "postgres"
+        environment:
+            HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USER_NAME}:${POSTGRES_DB_PASSWORD}@172.28.1.2:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
+            HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+            HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+            HASURA_GRAPHQL_ADMIN_SECRET: $HASURA_ADMIN_SECRET
+            HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+        networks:
+            cyberindex-net:
+                ipv4_address: 172.28.1.3
+        ports:
+            - 127.0.0.1:${HASURA_PORT}:8080
+
+networks:
+  cyberindex-net:
+    driver: bridge
+    ipam:
+        driver: default
+        config:
+            - subnet: 172.28.1.0/24
