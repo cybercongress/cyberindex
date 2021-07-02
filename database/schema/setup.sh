@@ -4,4 +4,5 @@ psql -f 02-bank.sql &&
 psql -f 03-modules.sql &&
 psql -f 04-graph.sql &&
 psql -f 05-energy.sql &&
-psql -f 06-resources.sql  
+psql -f 06-resources.sql &&
+psql -f views.sql
