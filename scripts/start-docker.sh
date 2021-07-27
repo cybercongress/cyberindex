@@ -28,7 +28,10 @@ then
     docker exec -ti cyberindex_postgres psql -f /root/schema/05-energy.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
     docker exec -ti cyberindex_postgres psql -f /root/schema/06-resources.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
+    # init additional views and table with old precommits
     docker exec -ti cyberindex_postgres psql -f /root/schema/views.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    # copy old_precommits from csv to table
+    docker exec -ti cyberindex_postgres psql -c "\copy old_precommits FROM /root/schema/bostrom_testnet_1_200k.csv with csv HEADER" -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
     docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
 
