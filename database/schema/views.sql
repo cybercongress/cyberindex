@@ -52,7 +52,7 @@ CREATE VIEW pre_commits_rewards_view as (
         t.precommits,
         t.sum_precommits,
         max(height) + 200000 as max_block,
-        ((((max(height) + 200000) / 50000) + 1) * (cast(precommits as decimal) / sum_precommits)) * 5000000000 as pre_commit_rewards
+        ((((max(height) + 200000 + 257620) / 50000) + 1) * (cast(precommits as decimal) / sum_precommits)) * 5000000000 as pre_commit_rewards
     FROM (
         SELECT
             consensus_pubkey,
