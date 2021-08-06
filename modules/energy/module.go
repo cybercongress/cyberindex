@@ -5,11 +5,9 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	energytypes "github.com/cybercongress/go-cyber/x/graph/types"
-	"github.com/desmos-labs/juno/modules/messages"
-	"google.golang.org/grpc"
-
+	energytypes "github.com/cybercongress/go-cyber/x/energy/types"
 	"github.com/desmos-labs/juno/modules"
+	"github.com/desmos-labs/juno/modules/messages"
 	"github.com/desmos-labs/juno/types"
 	tmctypes "github.com/tendermint/tendermint/rpc/core/types"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -22,20 +20,20 @@ var _ modules.Module = &Module{}
 type Module struct {
 	messagesParser messages.MessageAddressesParser
 	encodingConfig *params.EncodingConfig
-	graphClient    energytypes.QueryClient
+	energyClient   energytypes.QueryClient
 	db             *database.CyberDb
 }
 
 func NewModule(
 	messagesParser messages.MessageAddressesParser,
+	energyClient energytypes.QueryClient,
 	encodingConfig *params.EncodingConfig,
-	grpcConnection *grpc.ClientConn,
 	db *database.CyberDb,
 ) *Module {
 	return &Module{
 		messagesParser: messagesParser,
 		encodingConfig: encodingConfig,
-		graphClient:    energytypes.NewQueryClient(grpcConnection),
+		energyClient:   energyClient,
 		db:             db,
 	}
 }

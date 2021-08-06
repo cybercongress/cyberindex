@@ -1,4 +1,4 @@
-package utils
+package messages
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
@@ -9,7 +9,7 @@ import (
 	junomessages "github.com/desmos-labs/juno/modules/messages"
 )
 
-func cyberMessageAddressesParser(cdc codec.Marshaler, cyberMsg sdk.Msg) ([]string, error) {
+func CyberMessageAddressesParser(cdc codec.Marshaler, cyberMsg sdk.Msg) ([]string, error) {
 	switch msg := cyberMsg.(type) {
 
 	case *graphtypes.MsgCyberlink:

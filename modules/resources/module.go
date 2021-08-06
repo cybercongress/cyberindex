@@ -6,10 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
-	"github.com/desmos-labs/juno/modules/messages"
-	"google.golang.org/grpc"
-
 	"github.com/desmos-labs/juno/modules"
+	"github.com/desmos-labs/juno/modules/messages"
 	"github.com/desmos-labs/juno/types"
 	tmctypes "github.com/tendermint/tendermint/rpc/core/types"
 	tmtypes "github.com/tendermint/tendermint/types"
@@ -20,23 +18,23 @@ import (
 var _ modules.Module = &Module{}
 
 type Module struct {
-	messagesParser messages.MessageAddressesParser
-	encodingConfig *params.EncodingConfig
-	graphClient    resourcestypes.QueryClient
-	db             *database.CyberDb
+	messagesParser  messages.MessageAddressesParser
+	encodingConfig  *params.EncodingConfig
+	resourcesClient resourcestypes.QueryClient
+	db              *database.CyberDb
 }
 
 func NewModule(
 	messagesParser messages.MessageAddressesParser,
+	resourcesClient resourcestypes.QueryClient,
 	encodingConfig *params.EncodingConfig,
-	grpcConnection *grpc.ClientConn,
 	db *database.CyberDb,
 ) *Module {
 	return &Module{
-		messagesParser: messagesParser,
-		encodingConfig: encodingConfig,
-		graphClient:    resourcestypes.NewQueryClient(grpcConnection),
-		db:             db,
+		messagesParser:  messagesParser,
+		encodingConfig:  encodingConfig,
+		resourcesClient: resourcesClient,
+		db:              db,
 	}
 }
 
