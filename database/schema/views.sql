@@ -1,6 +1,6 @@
 CREATE TABLE old_precommits
 (
-    consensus_pubkey  TEXT NOT NULL UNIQUE /* Validator consensus public key */
+    consensus_pubkey  TEXT NOT NULL UNIQUE, /* Validator consensus public key */
     consensus_address TEXT NOT NULL PRIMARY KEY, /* Validator consensus address */
     precommits NUMERIC
 );
