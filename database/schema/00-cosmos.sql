@@ -10,7 +10,7 @@ CREATE TABLE pre_commit
     height            BIGINT                      NOT NULL,
     timestamp         TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     voting_power      BIGINT                      NOT NULL,
-    proposer_priority INTEGER                     NOT NULL,
+    proposer_priority BIGINT                      NOT NULL,
     UNIQUE (validator_address, timestamp)
 );
 CREATE INDEX pre_commit_validator_address_index ON pre_commit (validator_address);
@@ -22,7 +22,7 @@ CREATE TABLE block
     hash             TEXT                        NOT NULL UNIQUE,
     num_txs          INTEGER DEFAULT 0,
     total_gas        BIGINT  DEFAULT 0,
-    proposer_address TEXT                        REFERENCES validator (consensus_address),
+    proposer_address TEXT REFERENCES validator (consensus_address),
     timestamp        TIMESTAMP WITHOUT TIME ZONE NOT NULL
 );
 CREATE INDEX block_height_index ON block (height);
@@ -78,7 +78,7 @@ SELECT message.transaction_hash, message.index, message.type, message.value, mes
 FROM message
          JOIN transaction t on message.transaction_hash = t.hash
 WHERE (cardinality(types) = 0 OR type = ANY (types))
-          AND addresses && involved_accounts_addresses
+  AND addresses && involved_accounts_addresses
 ORDER BY height DESC
 LIMIT "limit" OFFSET "offset"
 $$ LANGUAGE sql STABLE;

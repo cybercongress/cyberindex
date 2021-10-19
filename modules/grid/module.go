@@ -1,13 +1,14 @@
-package graph
+package grid
 
 import (
-	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/forbole/juno/v2/modules"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cybercongress/cyberindex/database"
-	"github.com/forbole/juno/v2/modules"
 	"github.com/forbole/juno/v2/modules/messages"
 	"github.com/forbole/juno/v2/types"
+
+	"github.com/cosmos/cosmos-sdk/codec"
+	"github.com/cybercongress/cyberindex/database"
 )
 
 var (
@@ -23,8 +24,8 @@ type Module struct {
 
 func NewModule(
 	messagesParser messages.MessageAddressesParser,
-	cdc codec.Codec,
-	db *database.CyberDb,
+	cdc 		   codec.Codec,
+	db 			   *database.CyberDb,
 ) *Module {
 	return &Module{
 		messagesParser: messagesParser,
@@ -34,7 +35,7 @@ func NewModule(
 }
 
 func (m *Module) Name() string {
-	return "graph"
+	return "grid"
 }
 
 func (m *Module) HandleMsg(_ int, msg sdk.Msg, tx *types.Tx) error {

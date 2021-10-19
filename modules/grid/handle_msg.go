@@ -1,11 +1,10 @@
-package energy
+package grid
 
 import (
-	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	energytypes "github.com/cybercongress/go-cyber/x/energy/types"
+	gridtypes "github.com/cybercongress/go-cyber/x/grid/types"
 
-	"github.com/desmos-labs/juno/types"
+	"github.com/forbole/juno/v2/types"
 
 	"github.com/cybercongress/cyberindex/database"
 )
@@ -13,14 +12,13 @@ import (
 func HandleMsg(
 	tx *types.Tx,
 	msg sdk.Msg,
-	cdc codec.Marshaler,
 	db *database.CyberDb,
 ) error {
 	if len(tx.Logs) == 0 {
 		return nil
 	}
 	switch energyMsg := msg.(type) {
-	case *energytypes.MsgCreateRoute:
+	case *gridtypes.MsgCreateRoute:
 		return db.SaveRoute(
 			energyMsg.Source,
 			energyMsg.Destination,
@@ -29,19 +27,19 @@ func HandleMsg(
 			tx.Height,
 			tx.TxHash,
 		)
-	case *energytypes.MsgEditRoute:
+	case *gridtypes.MsgEditRoute:
 		return db.UpdateRouteValue(
 			energyMsg.Source,
 			energyMsg.Destination,
 			energyMsg.Value,
 		)
-	case *energytypes.MsgEditRouteAlias:
+	case *gridtypes.MsgEditRouteAlias:
 		return db.UpdateRouteAlias(
 			energyMsg.Source,
 			energyMsg.Destination,
 			energyMsg.Alias,
 		)
-	case *energytypes.MsgDeleteRoute:
+	case *gridtypes.MsgDeleteRoute:
 		return db.DeleteRoute(
 			energyMsg.Source,
 			energyMsg.Destination,

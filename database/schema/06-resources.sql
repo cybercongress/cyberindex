@@ -1,7 +1,7 @@
 CREATE TABLE investmints
 (
     id                  SERIAL PRIMARY KEY,
-    agent               TEXT                        NOT NULL REFERENCES account (address),
+    neuron              TEXT                        NOT NULL REFERENCES account (address),
     amount              COIN                        NOT NULL,
     resource            TEXT                        NOT NULL,
     length              BIGINT                      NOT NULL,
