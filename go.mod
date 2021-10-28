@@ -3,19 +3,19 @@ module github.com/cybercongress/cyberindex
 go 1.17
 
 require (
-	github.com/cosmos/cosmos-sdk v0.44.2
-	github.com/cybercongress/go-cyber v0.2.0-rc1.0.20211015070744-2b89f141fd40
+	github.com/cosmos/cosmos-sdk v0.44.3
+	github.com/cybercongress/go-cyber v0.2.0-rc2.0.20211025150400-d1f6bc1f8d71
 	github.com/forbole/bdjuno/v2 v2.0.0-20211018135716-b81e781cadd8
 	github.com/forbole/juno/v2 v2.0.0-20211018083707-de5b5378416e
 	github.com/lib/pq v1.10.3
-	github.com/tendermint/tendermint v0.34.13
+	github.com/tendermint/tendermint v0.34.14
 )
 
 require (
 	filippo.io/edwards25519 v1.0.0-beta.2 // indirect
 	github.com/99designs/keyring v1.1.6 // indirect
 	github.com/ChainSafe/go-schnorrkel v0.0.0-20200405005733-88cbf1b4c40d // indirect
-	github.com/CosmWasm/wasmd v0.20.0-rc1 // indirect
+	github.com/CosmWasm/wasmd v0.20.0 // indirect
 	github.com/CosmWasm/wasmvm v1.0.0-soon2 // indirect
 	github.com/Workiva/go-datastructures v1.0.52 // indirect
 	github.com/armon/go-metrics v0.3.9 // indirect
@@ -28,7 +28,7 @@ require (
 	github.com/confio/ics23/go v0.6.6 // indirect
 	github.com/cosmos/go-bip39 v1.0.0 // indirect
 	github.com/cosmos/iavl v0.17.1 // indirect
-	github.com/cosmos/ibc-go v1.2.1 // indirect
+	github.com/cosmos/ibc-go v1.2.2 // indirect
 	github.com/cosmos/ledger-cosmos-go v0.11.1 // indirect
 	github.com/cosmos/ledger-go v0.9.2 // indirect
 	github.com/danieljoos/wincred v1.0.2 // indirect
@@ -45,6 +45,7 @@ require (
 	github.com/go-co-op/gocron v0.3.3 // indirect
 	github.com/go-kit/kit v0.10.0 // indirect
 	github.com/go-logfmt/logfmt v0.5.0 // indirect
+	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gogo/gateway v1.1.0 // indirect
 	github.com/gogo/protobuf v1.3.3 // indirect
@@ -57,7 +58,6 @@ require (
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/gravity-devs/liquidity v1.4.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.0.1 // indirect
@@ -120,6 +120,7 @@ require (
 	github.com/tendermint/btcd v0.1.1 // indirect
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15 // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
+	github.com/tendermint/liquidity v1.4.1 // indirect
 	github.com/tendermint/tm-db v0.6.4 // indirect
 	github.com/zondax/hid v0.9.0 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
@@ -139,10 +140,12 @@ require (
 
 replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 
-replace github.com/forbole/juno/v2 => github.com/litvintech/juno/v2 v2.0.0-20211018140718-c2d5f12956c6
+replace github.com/forbole/juno/v2 => github.com/cybercongress/juno/v2 v2.0.0-20211018140718-c2d5f12956c6
 
-replace github.com/forbole/bdjuno/v2 => github.com/litvintech/bdjuno/v2 v2.0.0-20211019091916-b4097a67b2a0
+replace github.com/forbole/bdjuno/v2 => github.com/cybercongress/bdjuno/v2 v2.0.0-20211019091916-b4097a67b2a0
 
-replace github.com/CosmWasm/wasmd => github.com/litvintech/wasmd v0.21.0
+replace github.com/CosmWasm/wasmd => github.com/cybercongress/wasmd v0.21.0
+
+replace github.com/CosmWasm/wasmvm => github.com/CosmWasm/wasmvm v1.0.0-beta
 
 replace google.golang.org/grpc => google.golang.org/grpc v1.33.2

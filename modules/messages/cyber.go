@@ -21,7 +21,7 @@ func CyberMessageAddressesParser(cdc codec.Codec, cyberMsg sdk.Msg) ([]string, e
 	case *gridtypes.MsgEditRoute:
 		return []string{msg.Source}, nil
 
-	case *gridtypes.MsgEditRouteAlias:
+	case *gridtypes.MsgEditRouteName:
 		return []string{msg.Source}, nil
 
 	case *gridtypes.MsgDeleteRoute:

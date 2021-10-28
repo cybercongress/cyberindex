@@ -22,7 +22,7 @@ func HandleMsg(
 		return db.SaveRoute(
 			energyMsg.Source,
 			energyMsg.Destination,
-			energyMsg.Alias,
+			energyMsg.Name,
 			tx.Timestamp,
 			tx.Height,
 			tx.TxHash,
@@ -33,11 +33,11 @@ func HandleMsg(
 			energyMsg.Destination,
 			energyMsg.Value,
 		)
-	case *gridtypes.MsgEditRouteAlias:
+	case *gridtypes.MsgEditRouteName:
 		return db.UpdateRouteAlias(
 			energyMsg.Source,
 			energyMsg.Destination,
-			energyMsg.Alias,
+			energyMsg.Name,
 		)
 	case *gridtypes.MsgDeleteRoute:
 		return db.DeleteRoute(
