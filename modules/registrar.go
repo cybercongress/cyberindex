@@ -8,6 +8,7 @@ import (
 	"github.com/cybercongress/cyberindex/modules/graph"
 	"github.com/cybercongress/cyberindex/modules/grid"
 	"github.com/cybercongress/cyberindex/modules/resources"
+	"github.com/cybercongress/cyberindex/modules/wasm"
 	"github.com/cybercongress/go-cyber/app"
 	"github.com/forbole/bdjuno/v2/database"
 	"github.com/forbole/bdjuno/v2/modules"
@@ -45,16 +46,15 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 	cdc := ctx.EncodingConfig.Marshaler
 	bigDipperBd := database.Cast(ctx.Database)
 	cyberDb := &cyberdb.CyberDb{Db: bigDipperBd}
-
 	sources, err := BuildSources(ctx.JunoConfig.Node, ctx.EncodingConfig)
 	if err != nil {
 		panic(err)
 	}
-
 	authModule := auth.NewModule(r.parser, cdc, bigDipperBd)
 	bankModule := bank.NewModule(r.parser, sources.BankSource, cdc, bigDipperBd)
 	graphModule := graph.NewModule(r.parser, cdc, cyberDb)
 	gridModule := grid.NewModule(r.parser, cdc, cyberDb)
+	wasmModule := wasm.NewModule(r.parser, cdc, cyberDb)
 	resourceModule := resources.NewModule(r.parser, cdc, cyberDb)
 
 	return []jmodules.Module{
@@ -65,6 +65,7 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 		graphModule,
 		gridModule,
 		resourceModule,
+		wasmModule,
 	}
 }
 

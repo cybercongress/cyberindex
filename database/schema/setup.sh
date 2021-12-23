@@ -5,4 +5,5 @@ psql -f 03-modules.sql &&
 psql -f 04-graph.sql &&
 psql -f 05-grid.sql &&
 psql -f 06-resources.sql &&
+psql -f 07-wasm.sql &&
 psql -f views.sql

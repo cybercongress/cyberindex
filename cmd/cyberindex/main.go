@@ -39,5 +39,6 @@ func getAddressesParser() junomessages.MessageAddressesParser {
 	return junomessages.JoinMessageParsers(
 		junomessages.CosmosMessageAddressesParser,
 		cybermessages.CyberMessageAddressesParser,
+		cybermessages.WasmMessageAddressesParser,
 	)
 }
