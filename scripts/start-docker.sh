@@ -10,12 +10,12 @@ then
 
     # get static gift and genesis tables
 
-    if [ ! -f "database/schema/genesis.csv"]
+    if [ ! -f "database/schema/genesis.csv" ]
     then
         wget -O database/schema/genesis.csv https://gateway.ipfs.cybernode.ai/ipfs/QmWxvLnFZDJUrjTjNDt4BfanzncdbzTMfSQmkNAACQ8ZaF
     fi
 
-    if [ ! -f "database/schema/cyber_gift.csv"]
+    if [ ! -f "database/schema/cyber_gift.csv" ]
     then
         wget -O database/schema/cyber_gift.csv https://gateway.ipfs.cybernode.ai/ipfs/QmQC1WRfAfp6zDdbaVrYTC4qmJr1uMCo9LmDByePZ9TFEy
     fi
