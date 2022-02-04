@@ -6,17 +6,17 @@ import (
 
 func (db *CyberDb) SaveCyberlinks(
 	cyberlinks []graphtypes.Link,
-	agent string,
+	neuron string,
 	timestamp string,
 	height int64,
 	txHash string,
 	) error {
 	queryCyberlinks := `
-		INSERT INTO cyberlinks (object_from, object_to, subject, timestamp, height, transaction_hash)
+		INSERT INTO cyberlinks (particle_from, particle_to, neuron, timestamp, height, transaction_hash)
 		VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING
 	`
 	queryParticles := `
-		INSERT INTO particles (object, subject, timestamp, height, transaction_hash)
+		INSERT INTO particles (particle, neuron, timestamp, height, transaction_hash)
 		VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING
 	`
 
@@ -24,7 +24,7 @@ func (db *CyberDb) SaveCyberlinks(
 		_, err := db.Sql.Exec(queryCyberlinks,
 			cyberlinks[i].From,
 			cyberlinks[i].To,
-			agent,
+			neuron,
 			timestamp,
 			height,
 			txHash,
@@ -35,7 +35,7 @@ func (db *CyberDb) SaveCyberlinks(
 
 		_, err = db.Sql.Exec(queryParticles,
 			cyberlinks[i].From,
-			agent,
+			neuron,
 			timestamp,
 			height,
 			txHash,
@@ -46,7 +46,7 @@ func (db *CyberDb) SaveCyberlinks(
 
 		_, err = db.Sql.Exec(queryParticles,
 			cyberlinks[i].To,
-			agent,
+			neuron,
 			timestamp,
 			height,
 			txHash,

@@ -2,7 +2,7 @@ package database
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/forbole/bdjuno/database/types"
+	dbtypes "github.com/forbole/bdjuno/v2/database/types"
 	"github.com/lib/pq"
 )
 

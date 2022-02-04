@@ -2,13 +2,14 @@ package main
 
 import (
 	"github.com/cybercongress/cyberindex/modules"
-	"github.com/desmos-labs/juno/cmd"
-	junomessages "github.com/desmos-labs/juno/modules/messages"
+	"github.com/forbole/juno/v2/cmd"
+	junomessages "github.com/forbole/juno/v2/modules/messages"
 
 	cybermessages "github.com/cybercongress/cyberindex/modules/messages"
 	cyberapp "github.com/cybercongress/go-cyber/app"
-	parsecmd "github.com/desmos-labs/juno/cmd/parse"
-	"github.com/forbole/bdjuno/database"
+	"github.com/forbole/bdjuno/v2/database"
+	initcmd "github.com/forbole/juno/v2/cmd/init"
+	parsecmd "github.com/forbole/juno/v2/cmd/parse"
 )
 
 func main() {
@@ -18,6 +19,14 @@ func main() {
 		WithRegistrar(modules.NewRegistrar(getAddressesParser()))
 
 	cfg := cmd.NewConfig("cyberindex").WithParseConfig(parseCfg)
+
+	rootCmd := cmd.RootCmd(cfg.GetName())
+
+	rootCmd.AddCommand(
+		cmd.VersionCmd(),
+		initcmd.InitCmd(cfg.GetInitConfig()),
+		parsecmd.ParseCmd(cfg.GetParseConfig()),
+	)
 
 	executor := cmd.BuildDefaultExecutor(cfg)
 	err := executor.Execute()
@@ -30,5 +39,6 @@ func getAddressesParser() junomessages.MessageAddressesParser {
 	return junomessages.JoinMessageParsers(
 		junomessages.CosmosMessageAddressesParser,
 		cybermessages.CyberMessageAddressesParser,
+		cybermessages.WasmMessageAddressesParser,
 	)
 }

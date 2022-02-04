@@ -2,11 +2,11 @@ package database
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/forbole/bdjuno/database/types"
+	dbtypes "github.com/forbole/bdjuno/v2/database/types"
 )
 
 func (db *CyberDb) SaveInvestmints(
-	agent string,
+	neuron string,
 	amount sdk.Coin,
 	resource string,
 	length uint64,
@@ -15,7 +15,7 @@ func (db *CyberDb) SaveInvestmints(
 	txHash string,
 ) error {
 	query := `
-		INSERT INTO investmints (agent, amount, resource, length, timestamp, height, transaction_hash)
+		INSERT INTO investmints (neuron, amount, resource, length, timestamp, height, transaction_hash)
 		VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT DO NOTHING
 	`
 
@@ -26,7 +26,7 @@ func (db *CyberDb) SaveInvestmints(
 	}
 
 	_, err = db.Sql.Exec(query,
-		agent,
+		neuron,
 		value,
 		resource,
 		length,

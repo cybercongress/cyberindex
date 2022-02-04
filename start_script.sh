@@ -1,3 +1,6 @@
 #! /bin/bash
 
-cyberindex parse --home /root/.cyberindex
+while true
+do
+     cyberindex parse --home /root/.cyberindex
+done

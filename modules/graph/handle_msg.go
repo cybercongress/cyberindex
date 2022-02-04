@@ -1,11 +1,10 @@
 package graph
 
 import (
-	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
 
-	"github.com/desmos-labs/juno/types"
+	"github.com/forbole/juno/v2/types"
 
 	"github.com/cybercongress/cyberindex/database"
 )
@@ -13,7 +12,6 @@ import (
 func HandleMsg(
 	tx *types.Tx,
 	msg sdk.Msg,
-	cdc codec.Marshaler,
 	db *database.CyberDb,
 ) error {
 	if len(tx.Logs) == 0 {
@@ -23,7 +21,7 @@ func HandleMsg(
 	case *graphtypes.MsgCyberlink:
 		return db.SaveCyberlinks(
 			graphMsg.Links,
-			graphMsg.Address,
+			graphMsg.Neuron,
 			tx.Timestamp,
 			tx.Height,
 			tx.TxHash,

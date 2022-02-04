@@ -1,29 +1,31 @@
 package modules
 
 import (
+	"fmt"
 	"github.com/cosmos/cosmos-sdk/simapp/params"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cybercongress/cyberindex/modules/energy"
-	"github.com/cybercongress/cyberindex/modules/resources"
-	"github.com/desmos-labs/juno/client"
-	"github.com/desmos-labs/juno/db"
-	jmodules "github.com/desmos-labs/juno/modules"
-	"github.com/desmos-labs/juno/modules/messages"
-	"github.com/desmos-labs/juno/modules/registrar"
-	juno "github.com/desmos-labs/juno/types"
-	"github.com/forbole/bdjuno/database"
-	"github.com/forbole/bdjuno/modules"
-	"github.com/forbole/bdjuno/modules/auth"
-	"github.com/forbole/bdjuno/modules/bank"
-	bdmodules "github.com/forbole/bdjuno/modules/modules"
-
-	authttypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	cbd "github.com/cybercongress/cyberindex/database"
+	cyberdb "github.com/cybercongress/cyberindex/database"
 	"github.com/cybercongress/cyberindex/modules/graph"
-	energytypes "github.com/cybercongress/go-cyber/x/energy/types"
-	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
-	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
+	"github.com/cybercongress/cyberindex/modules/grid"
+	"github.com/cybercongress/cyberindex/modules/resources"
+	"github.com/cybercongress/cyberindex/modules/wasm"
+	"github.com/cybercongress/go-cyber/app"
+	"github.com/forbole/bdjuno/v2/database"
+	"github.com/forbole/bdjuno/v2/modules"
+	"github.com/forbole/bdjuno/v2/modules/auth"
+	"github.com/forbole/bdjuno/v2/modules/bank"
+	banksource "github.com/forbole/bdjuno/v2/modules/bank/source"
+	localbanksource "github.com/forbole/bdjuno/v2/modules/bank/source/local"
+	remotebanksource "github.com/forbole/bdjuno/v2/modules/bank/source/remote"
+	bjmodules "github.com/forbole/bdjuno/v2/modules/modules"
+	jmodules "github.com/forbole/juno/v2/modules"
+	"github.com/forbole/juno/v2/modules/messages"
+	"github.com/forbole/juno/v2/modules/registrar"
+	nodeconfig "github.com/forbole/juno/v2/node/config"
+	"github.com/forbole/juno/v2/node/local"
+	"github.com/forbole/juno/v2/node/remote"
+	"github.com/tendermint/tendermint/libs/log"
+	"os"
 )
 
 var (
@@ -40,26 +42,73 @@ func NewRegistrar(parser messages.MessageAddressesParser) *Registrar {
 	}
 }
 
-func (r *Registrar) BuildModules(
-	cfg juno.Config, encodingConfig *params.EncodingConfig, _ *sdk.Config, db db.Database, cp *client.Proxy,
-) jmodules.Modules {
-	bigDipperBd := database.Cast(db)
-	cyberDb := &cbd.CyberDb{bigDipperBd}
-	grpcConnection := client.MustCreateGrpcConnection(cfg)
-
-	authClient := authttypes.NewQueryClient(grpcConnection)
-	bankClient := banktypes.NewQueryClient(grpcConnection)
-	graphClient := graphtypes.NewQueryClient(grpcConnection)
-	energyClient := energytypes.NewQueryClient(grpcConnection)
-	resourcesClient := resourcestypes.NewQueryClient(grpcConnection)
+func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
+	cdc := ctx.EncodingConfig.Marshaler
+	bigDipperBd := database.Cast(ctx.Database)
+	cyberDb := &cyberdb.CyberDb{Db: bigDipperBd}
+	sources, err := BuildSources(ctx.JunoConfig.Node, ctx.EncodingConfig)
+	if err != nil {
+		panic(err)
+	}
+	authModule := auth.NewModule(r.parser, cdc, bigDipperBd)
+	bankModule := bank.NewModule(r.parser, sources.BankSource, cdc, bigDipperBd)
+	graphModule := graph.NewModule(r.parser, cdc, cyberDb)
+	gridModule := grid.NewModule(r.parser, cdc, cyberDb)
+	wasmModule := wasm.NewModule(r.parser, cdc, cyberDb)
+	resourceModule := resources.NewModule(r.parser, cdc, cyberDb)
 
 	return []jmodules.Module{
-		messages.NewModule(r.parser, encodingConfig.Marshaler, db),
-		auth.NewModule(r.parser, authClient, encodingConfig, bigDipperBd),
-		bank.NewModule(r.parser, authClient, bankClient, encodingConfig, bigDipperBd),
-		bdmodules.NewModule(cfg, bigDipperBd),
-		graph.NewModule(r.parser, graphClient, encodingConfig, cyberDb),
-		energy.NewModule(r.parser, energyClient, encodingConfig, cyberDb),
-		resources.NewModule(r.parser, resourcesClient, encodingConfig, cyberDb),
+		messages.NewModule(r.parser, cdc, ctx.Database),
+		authModule,
+		bankModule,
+		bjmodules.NewModule(ctx.JunoConfig.Chain, bigDipperBd),
+		graphModule,
+		gridModule,
+		resourceModule,
+		wasmModule,
 	}
 }
+
+type Sources struct {
+	BankSource     banksource.Source
+}
+
+func BuildSources(nodeCfg nodeconfig.Config, encodingConfig *params.EncodingConfig) (*Sources, error) {
+	switch cfg := nodeCfg.Details.(type) {
+	case *remote.Details:
+		return buildRemoteSources(cfg)
+	case *local.Details:
+		return buildLocalSources(cfg, encodingConfig)
+
+	default:
+		return nil, fmt.Errorf("invalid configuration type: %T", cfg)
+	}
+}
+
+func buildLocalSources(cfg *local.Details, encodingConfig *params.EncodingConfig) (*Sources, error) {
+	source, err := local.NewSource(cfg.Home, encodingConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	app := app.NewApp(
+		log.NewTMLogger(log.NewSyncWriter(os.Stdout)), source.StoreDB, nil, true, map[int64]bool{},
+		cfg.Home, 0, app.MakeEncodingConfig(), nil, nil, nil,
+	)
+
+	return &Sources{
+		BankSource:     localbanksource.NewSource(source, banktypes.QueryServer(app.BankKeeper)),
+	}, nil
+}
+
+func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
+	source, err := remote.NewSource(cfg.GRPC)
+	if err != nil {
+		return nil, fmt.Errorf("error while creating remote source: %s", err)
+	}
+
+	return &Sources{
+		BankSource:     remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+	}, nil
+}
+
