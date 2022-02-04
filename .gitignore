@@ -11,3 +11,9 @@ coverage.*
 database/.DS_Store
 
 .DS_Store
+
+# csv static tables
+
+database/schema/genesis.csv
+
+database/schema/cyber_gift.csv
