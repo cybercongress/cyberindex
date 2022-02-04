@@ -26,6 +26,7 @@ then
     docker exec -ti cyberindex_postgres psql -f /root/schema/04-graph.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
     docker exec -ti cyberindex_postgres psql -f /root/schema/05-grid.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
     docker exec -ti cyberindex_postgres psql -f /root/schema/06-resources.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/07-wasm.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
     # init additional views and tables
     docker exec -ti cyberindex_postgres psql -f /root/schema/views.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
