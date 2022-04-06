@@ -18,7 +18,7 @@ CREATE MATERIALIZED VIEW honest_pre_commits AS (
 
 CREATE OR REPLACE VIEW pre_commits_total AS (
     SELECT
-        validator.consensus_address,
+        validator.consensus_pubkey,
         t.pre_commits
     FROM (
         SELECT
