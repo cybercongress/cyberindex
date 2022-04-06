@@ -766,3 +766,30 @@ CREATE OR REPLACE VIEW top_leaders AS (
     GROUP BY particle_to
     ORDER BY COUNT(*) DESC
 );
+
+CREATE OR REPLACE VIEW follow_stats AS (
+    SELECT
+        date,
+        follows_per_day,
+        sum(follows_per_day) over(ORDER BY date) AS follow_total
+    FROM (
+        SELECT
+            date(day),
+            COALESCE(follows_per_day, 0) AS follows_per_day
+        FROM
+            generate_series('2021-11-05', now(), INTERVAL '1 day') AS day
+        LEFT JOIN (
+            SELECT
+                date(timestamp),
+                COUNT(*) AS follows_per_day
+            FROM
+                cyberlinks
+            WHERE
+                particle_from = 'QmPLSA5oPqYxgc8F7EwrM8WS9vKrr1zPoDniSRFh8HSrxx'
+            GROUP BY date(timestamp)
+            ORDER BY date(timestamp)
+        ) t ON date(day) = t.date
+    ) _t
+    ORDER BY date
+);
+
