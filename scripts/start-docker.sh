@@ -15,11 +15,6 @@ then
         wget -O database/schema/genesis.csv https://gateway.ipfs.cybernode.ai/ipfs/QmWxvLnFZDJUrjTjNDt4BfanzncdbzTMfSQmkNAACQ8ZaF
     fi
 
-    if [ ! -f "database/schema/cyber_gift.csv" ]
-    then
-        wget -O database/schema/cyber_gift.csv https://gateway.ipfs.cybernode.ai/ipfs/QmQC1WRfAfp6zDdbaVrYTC4qmJr1uMCo9LmDByePZ9TFEy
-    fi
-
     # build cyberindexer and run it in container
     docker build -t cyberindex:latest .
 
@@ -42,10 +37,14 @@ then
 
     # init additional views and tables
     docker exec -ti cyberindex_postgres psql -f /root/schema/views.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/delegation_strategy.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
     # copy genesis and cyber_gift from csv to table
     docker exec -ti cyberindex_postgres psql -c "\copy genesis FROM /root/schema/genesis.csv with csv HEADER" -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
-    docker exec -ti cyberindex_postgres psql -c "\copy cyber_gift FROM /root/schema/cyber_gift.csv with csv HEADER" -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+
+    # init gift with proofs table and copy it to postgress
+    docker exec -ti cyberindex_postgres psql -f /root/schema/cyber_gift.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -c "\copy cyber_gift_proofs FROM /root/schema/cyber_gift_proofs.csv WITH (DELIMITER ',', HEADER, FORMAT CSV, QUOTE '\"')" -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
     docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
 
@@ -53,6 +52,10 @@ then
 
     croncmd="docker exec -t cyberindex_postgres psql -c \"REFRESH MATERIALIZED VIEW CONCURRENTLY txs_ranked\" -d cyberindex -U cyber"
     cronjob="*/5 * * * * $croncmd"
+    ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
+
+    croncmd="docker exec -t cyberindex_postgres psql -c \"REFRESH MATERIALIZED VIEW CONCURRENTLY honest_pre_commits\" -d cyberindex -U cyber"
+    cronjob="*/30 * * * * $croncmd"
     ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
 
 else
