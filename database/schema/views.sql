@@ -53,16 +53,6 @@ CREATE TABLE genesis
     balance   BIGINT NOT NULL
 );
 
-CREATE TABLE cyber_gift
-(
-    audience TEXT NOT NULL,
-    segment TEXT NOT NULL,
-    address TEXT   NOT NULL,
-    grade INT NOT NULL,
-    gift NUMERIC NOT NULL
-);
-CREATE INDEX cyber_gift_index ON cyber_gift (audience, address);
-
 
 CREATE MATERIALIZED VIEW txs_ranked AS (
     SELECT 
