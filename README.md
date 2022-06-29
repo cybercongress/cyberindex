@@ -74,7 +74,7 @@ If you want to add cybergift table with proofs:
 Download cybergift with proofs file:
 
 ```bash
-wget -O database/schema/cyber_gift_proofs.csv https://gateway.ipfs.cybernode.ai/ipfs/HASH
+wget -O database/schema/cyber_gift_proofs.csv https://gateway.ipfs.cybernode.ai/ipfs/QmVvMuFN3EmMdowYuhBnLcZZLtbGDtF4a7fZFiNK627gPZ
 ```
 
 Inititate the `cyber_gift_proofs` table:
