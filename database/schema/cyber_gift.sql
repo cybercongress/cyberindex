@@ -1,6 +1,6 @@
 CREATE TABLE cyber_gift_proofs
 (
-    address TEXT NOT NULL PRIMARY,
+    address TEXT NOT NULL,
     amount BIGINT NOT NULL,
     proof VARCHAR[] NOT NULL,
     details JSONB[] NOT NULL

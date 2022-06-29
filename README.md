@@ -98,3 +98,5 @@ Run script:
 ```bash
 python3 gift_db.py
 ````
+
+Wait util progress is 100%, after you may query gift info frop postgres directrly or over GrpahQL.
