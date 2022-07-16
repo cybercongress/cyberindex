@@ -7,6 +7,7 @@ import (
 	cyberdb "github.com/cybercongress/cyberindex/database"
 	"github.com/cybercongress/cyberindex/modules/graph"
 	"github.com/cybercongress/cyberindex/modules/grid"
+	"github.com/cybercongress/cyberindex/modules/liquidity"
 	"github.com/cybercongress/cyberindex/modules/resources"
 	"github.com/cybercongress/cyberindex/modules/wasm"
 	"github.com/cybercongress/go-cyber/app"
@@ -24,6 +25,9 @@ import (
 	nodeconfig "github.com/forbole/juno/v2/node/config"
 	"github.com/forbole/juno/v2/node/local"
 	"github.com/forbole/juno/v2/node/remote"
+	//"github.com/tendermint/liquidity/x/liquidity"
+
+	//"github.com/tendermint/liquidity/x/liquidity"
 	"github.com/tendermint/tendermint/libs/log"
 	"os"
 )
@@ -56,6 +60,7 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 	gridModule := grid.NewModule(r.parser, cdc, cyberDb)
 	wasmModule := wasm.NewModule(r.parser, cdc, cyberDb)
 	resourceModule := resources.NewModule(r.parser, cdc, cyberDb)
+	liquidityModule := liquidity.NewModule(r.parser, cdc, bankModule, authModule, cyberDb)
 
 	return []jmodules.Module{
 		messages.NewModule(r.parser, cdc, ctx.Database),
@@ -66,11 +71,12 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 		gridModule,
 		resourceModule,
 		wasmModule,
+		liquidityModule,
 	}
 }
 
 type Sources struct {
-	BankSource     banksource.Source
+	BankSource      banksource.Source
 }
 
 func BuildSources(nodeCfg nodeconfig.Config, encodingConfig *params.EncodingConfig) (*Sources, error) {
