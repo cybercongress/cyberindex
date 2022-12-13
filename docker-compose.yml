@@ -3,6 +3,7 @@ version: '3'
 services:
     postgres:
         image: postgres:latest
+        shm: 1gb
         restart: always
         container_name: cyberindex_postgres
         volumes:
