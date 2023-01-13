@@ -11,23 +11,20 @@ import (
 	"github.com/cybercongress/cyberindex/modules/resources"
 	"github.com/cybercongress/cyberindex/modules/wasm"
 	"github.com/cybercongress/go-cyber/app"
-	"github.com/forbole/bdjuno/v2/database"
-	"github.com/forbole/bdjuno/v2/modules"
-	"github.com/forbole/bdjuno/v2/modules/auth"
-	"github.com/forbole/bdjuno/v2/modules/bank"
-	banksource "github.com/forbole/bdjuno/v2/modules/bank/source"
-	localbanksource "github.com/forbole/bdjuno/v2/modules/bank/source/local"
-	remotebanksource "github.com/forbole/bdjuno/v2/modules/bank/source/remote"
-	bjmodules "github.com/forbole/bdjuno/v2/modules/modules"
-	jmodules "github.com/forbole/juno/v2/modules"
-	"github.com/forbole/juno/v2/modules/messages"
-	"github.com/forbole/juno/v2/modules/registrar"
-	nodeconfig "github.com/forbole/juno/v2/node/config"
-	"github.com/forbole/juno/v2/node/local"
-	"github.com/forbole/juno/v2/node/remote"
-	//"github.com/tendermint/liquidity/x/liquidity"
-
-	//"github.com/tendermint/liquidity/x/liquidity"
+	"github.com/forbole/bdjuno/v3/database"
+	"github.com/forbole/bdjuno/v3/modules"
+	"github.com/forbole/bdjuno/v3/modules/auth"
+	"github.com/forbole/bdjuno/v3/modules/bank"
+	banksource "github.com/forbole/bdjuno/v3/modules/bank/source"
+	localbanksource "github.com/forbole/bdjuno/v3/modules/bank/source/local"
+	remotebanksource "github.com/forbole/bdjuno/v3/modules/bank/source/remote"
+	bjmodules "github.com/forbole/bdjuno/v3/modules/modules"
+	jmodules "github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v3/modules/messages"
+	"github.com/forbole/juno/v3/modules/registrar"
+	nodeconfig "github.com/forbole/juno/v3/node/config"
+	"github.com/forbole/juno/v3/node/local"
+	"github.com/forbole/juno/v3/node/remote"
 	"github.com/tendermint/tendermint/libs/log"
 	"os"
 )
@@ -76,7 +73,7 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 }
 
 type Sources struct {
-	BankSource      banksource.Source
+	BankSource banksource.Source
 }
 
 func BuildSources(nodeCfg nodeconfig.Config, encodingConfig *params.EncodingConfig) (*Sources, error) {
@@ -103,7 +100,7 @@ func buildLocalSources(cfg *local.Details, encodingConfig *params.EncodingConfig
 	)
 
 	return &Sources{
-		BankSource:     localbanksource.NewSource(source, banktypes.QueryServer(app.BankKeeper)),
+		BankSource: localbanksource.NewSource(source, banktypes.QueryServer(app.BankKeeper)),
 	}, nil
 }
 
@@ -114,7 +111,6 @@ func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
 	}
 
 	return &Sources{
-		BankSource:     remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+		BankSource: remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
 	}, nil
 }
-

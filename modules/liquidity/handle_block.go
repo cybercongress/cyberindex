@@ -3,7 +3,7 @@ package liquidity
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v2/types"
+	"github.com/forbole/juno/v3/types"
 	"github.com/rs/zerolog/log"
 	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
@@ -23,18 +23,22 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 		var poolsRateMap = make(map[uint64]sdk.Dec, 0)
 
 		attrs := eventAttrsFromEvent(event)
-		status, err := attrs.SwapStatus(); if err != nil {
+		status, err := attrs.SwapStatus()
+		if err != nil {
 			return err
 		}
 		if status {
-			addr, err := attrs.SwapRequesterAddr(); if err != nil {
+			addr, err := attrs.SwapRequesterAddr()
+			if err != nil {
 				return err
 			}
-			poolID, err := attrs.PoolID(); if err != nil {
+			poolID, err := attrs.PoolID()
+			if err != nil {
 				return err
 			}
 
-			swapPrice, err := attrs.SwapPrice(); if err != nil {
+			swapPrice, err := attrs.SwapPrice()
+			if err != nil {
 				return err
 			}
 
@@ -43,7 +47,6 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 			exchangedOfferCoinFee, err := attrs.CoinAttrs(liquiditytypes.AttributeValueOfferCoinDenom, liquiditytypes.AttributeValueOfferCoinFeeAmount)
 			feeDec, err := attrs.DecCoinAttrs(liquiditytypes.AttributeValueDemandCoinDenom, liquiditytypes.AttributeValueExchangedCoinFeeAmount)
 			exchangedDemandCoinFee := sdk.NewCoin(feeDec.Denom, feeDec.Amount.Ceil().TruncateInt())
-
 
 			err = m.db.SaveSwap(
 				addr,
@@ -54,7 +57,8 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 				exchangedOfferCoinFee,
 				exchangedDemandCoinFee,
 				height,
-			); if err != nil {
+			)
+			if err != nil {
 				fmt.Errorf("error while saving swap: %s", err)
 			}
 
@@ -82,7 +86,8 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 					poolsFeeMap[poolID][0],
 					poolsFeeMap[poolID][1],
 					timestamp,
-				); if err != nil {
+				)
+				if err != nil {
 					fmt.Errorf("error while saving volume: %s", err)
 				}
 			}
@@ -92,18 +97,21 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 					poolID,
 					rate,
 					timestamp,
-				); if err != nil {
+				)
+				if err != nil {
 					fmt.Errorf("error while saving rate: %s", err)
 				}
 			}
 
 			for poolID := range poolsRateMap {
-				pool, err := m.db.GetPoolInfo(poolID); if err == nil {
+				pool, err := m.db.GetPoolInfo(poolID)
+				if err == nil {
 					err := m.bankModule.RefreshBalances(height, []string{pool.Address})
 					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
 					}
-					poolBalances, err := m.db.GetAccountBalance(pool.Address); if err != nil {
+					poolBalances, err := m.db.GetAccountBalance(pool.Address)
+					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
 					}
 					var coins = sdk.NewCoins(poolBalances...)
@@ -112,7 +120,8 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 						sdk.NewCoin(pool.DepositA.Denom, coins.AmountOfNoDenomValidation(pool.DepositA.Denom)),
 						sdk.NewCoin(pool.DepositB.Denom, coins.AmountOfNoDenomValidation(pool.DepositB.Denom)),
 						timestamp,
-					); if err != nil {
+					)
+					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
 					}
 				} else {
@@ -129,21 +138,27 @@ func (m *Module) executePoolCreations(height int64, beginBlockEvents []abcitypes
 	events := types.FindEventsByType(beginBlockEvents, liquiditytypes.EventTypeCreatePool)
 	for _, event := range events {
 		attrs := eventAttrsFromEvent(event)
-		pool_id, err := attrs.PoolID(); if err != nil {
+		pool_id, err := attrs.PoolID()
+		if err != nil {
 			fmt.Errorf("error while parsing attr: %s", err)
 		}
-		pool_name, err := attrs.PoolName(); if err != nil {
-			fmt.Errorf("error while parsing attr: %s", err)
-		}; if err != nil {
-			fmt.Errorf("error while parsing attr: %s", err)
-		}
-		reverse_account, err := attrs.ReserveAccount(); if err != nil {
+		pool_name, err := attrs.PoolName()
+		if err != nil {
 			fmt.Errorf("error while parsing attr: %s", err)
 		}
-		deposit, err := attrs.PoolDepositCoins(); if err != nil {
+		if err != nil {
 			fmt.Errorf("error while parsing attr: %s", err)
 		}
-		pool_denom, err := attrs.PoolCoinDenom(); if err != nil {
+		reverse_account, err := attrs.ReserveAccount()
+		if err != nil {
+			fmt.Errorf("error while parsing attr: %s", err)
+		}
+		deposit, err := attrs.PoolDepositCoins()
+		if err != nil {
+			fmt.Errorf("error while parsing attr: %s", err)
+		}
+		pool_denom, err := attrs.PoolCoinDenom()
+		if err != nil {
 			fmt.Errorf("error while parsing attr: %s", err)
 		}
 
@@ -158,7 +173,6 @@ func (m *Module) executePoolCreations(height int64, beginBlockEvents []abcitypes
 	}
 	return nil
 }
-
 
 type EventAttributes map[string]string
 
@@ -235,7 +249,8 @@ func (attrs EventAttributes) DemandCoinDenom() (string, error) {
 }
 
 func (attrs EventAttributes) SwapStatus() (bool, error) {
-	value, err := attrs.Attr(liquiditytypes.AttributeValueSuccess); if err != nil {
+	value, err := attrs.Attr(liquiditytypes.AttributeValueSuccess)
+	if err != nil {
 		return false, err
 	}
 	if value == liquiditytypes.Success {

@@ -6,7 +6,7 @@ import (
 
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v2/types"
+	"github.com/forbole/juno/v3/types"
 )
 
 // HandleMsg allows to handle the different utils related to the gov module

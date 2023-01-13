@@ -3,16 +3,16 @@ package database
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	bddbtypes "github.com/forbole/bdjuno/v2/database/types"
+	bddbtypes "github.com/forbole/bdjuno/v3/database/types"
 	"time"
 )
 
 func (db *CyberDb) SavePool(
-	poolID 	   uint64,
-	address    string,
-	name	   string,
-	deposit_a  sdk.Coin,
-	deposit_b  sdk.Coin,
+	poolID uint64,
+	address string,
+	name string,
+	deposit_a sdk.Coin,
+	deposit_b sdk.Coin,
 	pool_denom string,
 ) error {
 	stmt := `
@@ -90,10 +90,10 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 }
 
 func (db *CyberDb) SaveLiquidity(
-	poolID 	   uint64,
+	poolID uint64,
 	liquidityA sdk.Coin,
 	liquidityB sdk.Coin,
-	timestamp  time.Time,
+	timestamp time.Time,
 ) error {
 	stmt := `
 INSERT INTO pools_liquidity (pool_id, liquidity_a, liquidity_b, timestamp) 
@@ -173,19 +173,19 @@ func (db *CyberDb) GetPoolInfo(poolID uint64) (PoolRowNative, error) {
 }
 
 type PoolRow struct {
-	PoolId		int64    `db:"pool_id"`
-	PoolName    string	 `db:"pool_name"`
-	Address 	string   `db:"address"`
-	DepositA  	bddbtypes.DbCoin `db:"deposit_a"`
-	DepositB    bddbtypes.DbCoin `db:"deposit_b"`
-	PoolDenom   string   `db:"pool_denom"`
+	PoolId    int64            `db:"pool_id"`
+	PoolName  string           `db:"pool_name"`
+	Address   string           `db:"address"`
+	DepositA  bddbtypes.DbCoin `db:"deposit_a"`
+	DepositB  bddbtypes.DbCoin `db:"deposit_b"`
+	PoolDenom string           `db:"pool_denom"`
 }
 
 type PoolRowNative struct {
-	PoolId		int64    `db:"pool_id"`
-	PoolName    string	 `db:"pool_name"`
-	Address 	string   `db:"address"`
-	DepositA  	sdk.Coin `db:"deposit_a"`
-	DepositB    sdk.Coin `db:"deposit_b"`
-	PoolDenom   string   `db:"pool_denom"`
+	PoolId    int64    `db:"pool_id"`
+	PoolName  string   `db:"pool_name"`
+	Address   string   `db:"address"`
+	DepositA  sdk.Coin `db:"deposit_a"`
+	DepositB  sdk.Coin `db:"deposit_b"`
+	PoolDenom string   `db:"pool_denom"`
 }

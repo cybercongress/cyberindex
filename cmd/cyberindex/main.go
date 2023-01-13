@@ -2,30 +2,39 @@ package main
 
 import (
 	"github.com/cybercongress/cyberindex/modules"
-	"github.com/forbole/juno/v2/cmd"
-	junomessages "github.com/forbole/juno/v2/modules/messages"
+	"github.com/forbole/bdjuno/v3/types/config"
+	"github.com/forbole/juno/v3/cmd"
+	junomessages "github.com/forbole/juno/v3/modules/messages"
 
 	cybermessages "github.com/cybercongress/cyberindex/modules/messages"
 	cyberapp "github.com/cybercongress/go-cyber/app"
-	"github.com/forbole/bdjuno/v2/database"
-	initcmd "github.com/forbole/juno/v2/cmd/init"
-	parsecmd "github.com/forbole/juno/v2/cmd/parse"
+	"github.com/forbole/bdjuno/v3/database"
+	initcmd "github.com/forbole/juno/v3/cmd/init"
+	parsecmd "github.com/forbole/juno/v3/cmd/parse"
+	parsetypes "github.com/forbole/juno/v3/cmd/parse/types"
+	startcmd "github.com/forbole/juno/v3/cmd/start"
 )
 
 func main() {
-	parseCfg := parsecmd.NewConfig().
+	initCfg := initcmd.NewConfig().
+		WithConfigCreator(config.Creator)
+
+	parseCfg := parsetypes.NewConfig().
 		WithDBBuilder(database.Builder).
 		WithEncodingConfigBuilder(cyberapp.MakeTestEncodingConfig).
 		WithRegistrar(modules.NewRegistrar(getAddressesParser()))
 
-	cfg := cmd.NewConfig("cyberindex").WithParseConfig(parseCfg)
+	cfg := cmd.NewConfig("cyberindex").
+		WithInitConfig(initCfg).
+		WithParseConfig(parseCfg)
 
 	rootCmd := cmd.RootCmd(cfg.GetName())
 
 	rootCmd.AddCommand(
 		cmd.VersionCmd(),
-		initcmd.InitCmd(cfg.GetInitConfig()),
-		parsecmd.ParseCmd(cfg.GetParseConfig()),
+		initcmd.NewInitCmd(cfg.GetInitConfig()),
+		parsecmd.NewParseCmd(cfg.GetParseConfig()),
+		startcmd.NewStartCmd(cfg.GetParseConfig()),
 	)
 
 	executor := cmd.BuildDefaultExecutor(cfg)

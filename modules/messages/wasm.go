@@ -4,7 +4,7 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	junomessages "github.com/forbole/juno/v2/modules/messages"
+	junomessages "github.com/forbole/juno/v3/modules/messages"
 )
 
 func WasmMessageAddressesParser(cdc codec.Codec, wasmMsg sdk.Msg) ([]string, error) {
@@ -27,7 +27,6 @@ func WasmMessageAddressesParser(cdc codec.Codec, wasmMsg sdk.Msg) ([]string, err
 	case *wasmtypes.MsgMigrateContract:
 		return []string{msg.Sender}, nil
 	}
-
 
 	return nil, junomessages.MessageNotSupported(wasmMsg)
 }

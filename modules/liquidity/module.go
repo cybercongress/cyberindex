@@ -4,40 +4,40 @@ import (
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cybercongress/cyberindex/database"
-	"github.com/forbole/juno/v2/modules"
-	"github.com/forbole/juno/v2/modules/messages"
-	"github.com/forbole/juno/v2/types"
+	"github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v3/modules/messages"
+	"github.com/forbole/juno/v3/types"
 	coretypes "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 var (
-	_ modules.Module 		= &Module{}
+	_ modules.Module        = &Module{}
 	_ modules.MessageModule = &Module{}
 	_ modules.BlockModule   = &Module{}
 	_ modules.PeriodicOperationsModule
 )
 
 type Module struct {
-	messagesParser  messages.MessageAddressesParser
-	cdc 		   	codec.Codec
-	db              *database.CyberDb
-	bankModule      BankModule
-	authModule      AuthModule
+	messagesParser messages.MessageAddressesParser
+	cdc            codec.Codec
+	db             *database.CyberDb
+	bankModule     BankModule
+	authModule     AuthModule
 }
 
 func NewModule(
 	messagesParser messages.MessageAddressesParser,
-	cdc 		   codec.Codec,
-	bankModule 	   BankModule,
-	authModule     AuthModule,
-	db 			   *database.CyberDb,
+	cdc codec.Codec,
+	bankModule BankModule,
+	authModule AuthModule,
+	db *database.CyberDb,
 ) *Module {
 	return &Module{
-		messagesParser:  messagesParser,
-		cdc: 			 cdc,
-		db:              db,
-		bankModule:      bankModule,
-		authModule:      authModule,
+		messagesParser: messagesParser,
+		cdc:            cdc,
+		db:             db,
+		bankModule:     bankModule,
+		authModule:     authModule,
 	}
 }
 
@@ -52,4 +52,3 @@ func (m *Module) HandleBlock(block *coretypes.ResultBlock, results *coretypes.Re
 	}
 	return nil
 }
-
