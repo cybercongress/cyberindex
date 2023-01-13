@@ -2,5 +2,5 @@
 
 while true
 do
-     cyberindex parse --home /root/.cyberindex
+     cyberindex start --home /root/.cyberindex
 done
