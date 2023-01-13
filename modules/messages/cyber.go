@@ -6,7 +6,7 @@ import (
 	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
 	gridtypes "github.com/cybercongress/go-cyber/x/grid/types"
 	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
-	junomessages "github.com/forbole/juno/v2/modules/messages"
+	junomessages "github.com/forbole/juno/v3/modules/messages"
 )
 
 func CyberMessageAddressesParser(cdc codec.Codec, cyberMsg sdk.Msg) ([]string, error) {
