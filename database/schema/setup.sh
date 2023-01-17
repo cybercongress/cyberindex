@@ -6,5 +6,5 @@ psql -f 04-graph.sql &&
 psql -f 05-grid.sql &&
 psql -f 06-resources.sql &&
 psql -f 07-wasm.sql &&
-psql -f 08-liquidity.sql
-#psql -f views.sql
+psql -f 08-liquidity.sql &&
+psql -f views.sql
