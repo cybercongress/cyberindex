@@ -27,6 +27,7 @@ then
     docker exec -ti cyberindex_postgres psql -f /root/schema/05-grid.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
     docker exec -ti cyberindex_postgres psql -f /root/schema/06-resources.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
     docker exec -ti cyberindex_postgres psql -f /root/schema/07-wasm.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
+    docker exec -ti cyberindex_postgres psql -f /root/schema/08-dex.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 
     docker run -d --name cyberindex --network="host" -v $HOME/.cyberindex:/root/.cyberindex cyberindex:latest
 

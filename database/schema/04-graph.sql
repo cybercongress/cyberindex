@@ -6,7 +6,7 @@ CREATE TABLE cyberlinks
     neuron              TEXT                        NOT NULL REFERENCES account (address),
     timestamp           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     height              BIGINT                      NOT NULL REFERENCES block (height),
-    transaction_hash    TEXT                        NOT NULL REFERENCES transaction (hash)
+    transaction_hash    TEXT                        NOT NULL
 );
 
 CREATE TABLE particles
@@ -16,5 +16,5 @@ CREATE TABLE particles
     neuron              TEXT                        NOT NULL REFERENCES account (address),
     timestamp           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     height              BIGINT                      NOT NULL REFERENCES block (height),
-    transaction_hash    TEXT                        NOT NULL REFERENCES transaction (hash)
+    transaction_hash    TEXT                        NOT NULL
 )

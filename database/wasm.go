@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/cybercongress/cyberindex/types"
+	"github.com/cybercongress/cyberindex/database/types"
 )
 
 // SaveContract allows to save the given contract into the database.

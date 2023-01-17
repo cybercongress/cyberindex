@@ -5,18 +5,21 @@ import (
 	"github.com/cosmos/cosmos-sdk/simapp/params"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	cyberdb "github.com/cybercongress/cyberindex/database"
+	"github.com/cybercongress/cyberindex/modules/bank"
+	banksource "github.com/cybercongress/cyberindex/modules/bank/source"
+	localbanksource "github.com/cybercongress/cyberindex/modules/bank/source/local"
+	remotebanksource "github.com/cybercongress/cyberindex/modules/bank/source/remote"
 	"github.com/cybercongress/cyberindex/modules/graph"
 	"github.com/cybercongress/cyberindex/modules/grid"
+	"github.com/cybercongress/cyberindex/modules/liquidity"
+	liquiditysource "github.com/cybercongress/cyberindex/modules/liquidity/source"
+	remoteliquiditysource "github.com/cybercongress/cyberindex/modules/liquidity/source/remote"
 	"github.com/cybercongress/cyberindex/modules/resources"
 	"github.com/cybercongress/cyberindex/modules/wasm"
 	"github.com/cybercongress/go-cyber/app"
 	"github.com/forbole/bdjuno/v3/database"
 	"github.com/forbole/bdjuno/v3/modules"
 	"github.com/forbole/bdjuno/v3/modules/auth"
-	"github.com/forbole/bdjuno/v3/modules/bank"
-	banksource "github.com/forbole/bdjuno/v3/modules/bank/source"
-	localbanksource "github.com/forbole/bdjuno/v3/modules/bank/source/local"
-	remotebanksource "github.com/forbole/bdjuno/v3/modules/bank/source/remote"
 	bjmodules "github.com/forbole/bdjuno/v3/modules/modules"
 	jmodules "github.com/forbole/juno/v3/modules"
 	"github.com/forbole/juno/v3/modules/messages"
@@ -24,6 +27,7 @@ import (
 	nodeconfig "github.com/forbole/juno/v3/node/config"
 	"github.com/forbole/juno/v3/node/local"
 	"github.com/forbole/juno/v3/node/remote"
+	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
 	"github.com/tendermint/tendermint/libs/log"
 	"os"
 )
@@ -51,11 +55,12 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 		panic(err)
 	}
 	authModule := auth.NewModule(r.parser, cdc, bigDipperBd)
-	bankModule := bank.NewModule(r.parser, sources.BankSource, cdc, bigDipperBd)
+	bankModule := bank.NewModule(r.parser, cdc, sources.BankSource, cyberDb)
 	graphModule := graph.NewModule(r.parser, cdc, cyberDb)
 	gridModule := grid.NewModule(r.parser, cdc, cyberDb)
 	wasmModule := wasm.NewModule(r.parser, cdc, cyberDb)
 	resourceModule := resources.NewModule(r.parser, cdc, cyberDb)
+	liquidityModule := liquidity.NewModule(r.parser, cdc, bankModule, authModule, sources.LiquiditySource, cyberDb)
 
 	return []jmodules.Module{
 		messages.NewModule(r.parser, cdc, ctx.Database),
@@ -66,11 +71,13 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 		gridModule,
 		resourceModule,
 		wasmModule,
+		liquidityModule,
 	}
 }
 
 type Sources struct {
-	BankSource banksource.Source
+	BankSource      banksource.Source
+	LiquiditySource liquiditysource.Source
 }
 
 func BuildSources(nodeCfg nodeconfig.Config, encodingConfig *params.EncodingConfig) (*Sources, error) {
@@ -108,6 +115,7 @@ func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
 	}
 
 	return &Sources{
-		BankSource: remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+		BankSource:      remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+		LiquiditySource: remoteliquiditysource.NewSource(source, liquiditytypes.NewQueryClient(source.GrpcConn)),
 	}, nil
 }

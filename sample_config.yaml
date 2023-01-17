@@ -9,6 +9,7 @@ chain:
         - grid
         - resources
         - wasm
+        - liquidity
 node:
     type: remote
     config:
