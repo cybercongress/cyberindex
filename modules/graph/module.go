@@ -5,9 +5,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cybercongress/cyberindex/database"
-	"github.com/forbole/juno/v2/modules"
-	"github.com/forbole/juno/v2/modules/messages"
-	"github.com/forbole/juno/v2/types"
+	"github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v3/modules/messages"
+	"github.com/forbole/juno/v3/types"
 )
 
 var (
@@ -17,7 +17,7 @@ var (
 
 type Module struct {
 	messagesParser messages.MessageAddressesParser
-	cdc 		   codec.Codec
+	cdc            codec.Codec
 	db             *database.CyberDb
 }
 
@@ -28,7 +28,7 @@ func NewModule(
 ) *Module {
 	return &Module{
 		messagesParser: messagesParser,
-		cdc: 			cdc,
+		cdc:            cdc,
 		db:             db,
 	}
 }

@@ -4,7 +4,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
 
-	"github.com/forbole/juno/v2/types"
+	"github.com/forbole/juno/v3/types"
 
 	"github.com/cybercongress/cyberindex/database"
 )

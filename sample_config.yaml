@@ -8,31 +8,37 @@ chain:
         - graph
         - grid
         - resources
+        - wasm
 node:
-    type: "remote"
+    type: remote
     config:
         rpc:
             client_name: "cyberindex"
             max_connections: 10
             address: "http://localhost:26657"
         grpc:
-            insecure: true
             address: "http://localhost:9090"
-database:
-    host: localhost
-    max_idle_connections: 1
-    max_open_connections: 1
-    name: litvintech
-    password: ""
-    port: 5432
-    schema: public
-    user: litvintech
-logging:
-    format: text
-    level: debug
+            insecure: true
 parsing:
-    listen_new_blocks: true
-    parse_genesis: true
-    parse_old_blocks: true
-    start_height: 1
     workers: 1
+    listen_new_blocks: true
+    parse_old_blocks: true
+    parse_genesis: true
+    start_height: 1
+    average_block_time: 5s
+database:
+    name: whoami
+    host: localhost
+    port: 5432
+    user: whoami
+    password: ""
+    schema: public
+    max_open_connections: 1
+    max_idle_connections: 1
+    partition_size: 100000
+    partition_batch: 1000
+logging:
+    level: debug
+    format: text
+actions:
+    port: 3000

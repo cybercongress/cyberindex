@@ -17,7 +17,7 @@ cyberindex run selected indexers from BDJuno, see schemas and registrar.go
 
 Run:
 ```
-cyberindex parse
+cyberindex start
 ```
 
 Example configuration in sample_config.yaml
