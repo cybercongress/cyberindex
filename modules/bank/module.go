@@ -2,9 +2,9 @@ package bank
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-
 	"github.com/cybercongress/cyberindex/database"
 	"github.com/cybercongress/cyberindex/modules/bank/source"
+	"github.com/forbole/bdjuno/v3/types"
 
 	junomessages "github.com/forbole/juno/v3/modules/messages"
 
@@ -24,6 +24,10 @@ type Module struct {
 	cdc           codec.Codec
 	keeper        source.Source
 	db            *database.CyberDb
+}
+
+func (m *Module) GetBalances(addresses []string, height int64) ([]types.AccountBalance, error) {
+	return m.keeper.GetBalances(addresses, height)
 }
 
 // NewModule returns a new Module instance

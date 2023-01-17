@@ -11,32 +11,21 @@ func (db *CyberDb) SavePool(
 	poolID uint64,
 	address string,
 	name string,
-	deposit_a sdk.Coin,
-	deposit_b sdk.Coin,
+	a_denom string,
+	b_denom string,
 	pool_denom string,
 ) error {
 	stmt := `
-INSERT INTO pools (pool_id, pool_name, address, deposit_a, deposit_b, pool_denom) 
+INSERT INTO pools (pool_id, pool_name, address, a_denom, b_denom, pool_denom) 
 VALUES ($1, $2, $3, $4, $5, $6)`
-	deposit_a_coin := bddbtypes.DbCoin{Amount: deposit_a.Amount.String(), Denom: deposit_a.Denom}
-	deposit_a_value, err := deposit_a_coin.Value()
-	if err != nil {
-		return fmt.Errorf("error while converting coin to dbcoin: %s", err)
-	}
 
-	deposit_b_coin := bddbtypes.DbCoin{Amount: deposit_b.Amount.String(), Denom: deposit_b.Denom}
-	deposit_b_value, err := deposit_b_coin.Value()
-	if err != nil {
-		return fmt.Errorf("error while converting coin to dbcoin: %s", err)
-	}
-
-	_, err = db.Sql.Exec(
+	_, err := db.Sql.Exec(
 		stmt,
 		poolID,
 		name,
 		address,
-		deposit_a_value,
-		deposit_b_value,
+		a_denom,
+		b_denom,
 		pool_denom,
 	)
 	return err
@@ -149,43 +138,32 @@ VALUES ($1, $2, $3)`
 }
 
 // GetAccountBalance returns the balance of the user having the given address
-func (db *CyberDb) GetPoolInfo(poolID uint64) (PoolRowNative, error) {
+func (db *CyberDb) GetPoolInfo(poolID uint64) (PoolRow, error) {
 	stmt := `SELECT * FROM pools WHERE pool_id = $1`
 
 	var rows []PoolRow
 	err := db.Sqlx.Select(&rows, stmt, poolID)
 	if err != nil {
-		return PoolRowNative{}, err
+		return PoolRow{}, err
 	}
 
 	if len(rows) == 0 {
-		return PoolRowNative{}, nil
+		return PoolRow{}, nil
 	}
 
-	return PoolRowNative{
-		rows[0].PoolId,
-		rows[0].PoolName,
-		rows[0].Address,
-		rows[0].DepositA.ToCoin(),
-		rows[0].DepositB.ToCoin(),
-		rows[0].PoolDenom,
-	}, nil
+	// DEBUG
+	if len(rows) > 1 {
+		panic(err)
+	}
+
+	return rows[0], nil
 }
 
 type PoolRow struct {
-	PoolId    int64            `db:"pool_id"`
-	PoolName  string           `db:"pool_name"`
-	Address   string           `db:"address"`
-	DepositA  bddbtypes.DbCoin `db:"deposit_a"`
-	DepositB  bddbtypes.DbCoin `db:"deposit_b"`
-	PoolDenom string           `db:"pool_denom"`
-}
-
-type PoolRowNative struct {
-	PoolId    int64    `db:"pool_id"`
-	PoolName  string   `db:"pool_name"`
-	Address   string   `db:"address"`
-	DepositA  sdk.Coin `db:"deposit_a"`
-	DepositB  sdk.Coin `db:"deposit_b"`
-	PoolDenom string   `db:"pool_denom"`
+	PoolId    int64  `db:"pool_id"`
+	PoolName  string `db:"pool_name"`
+	Address   string `db:"address"`
+	ADenom    string `db:"a_denom"`
+	BDenom    string `db:"b_denom"`
+	PoolDenom string `db:"pool_denom"`
 }

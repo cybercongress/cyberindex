@@ -7,5 +7,5 @@ CREATE TABLE investmints
     length              BIGINT                      NOT NULL,
     timestamp           TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     height              BIGINT                      NOT NULL REFERENCES block (height),
-    transaction_hash    TEXT                        NOT NULL REFERENCES transaction (hash)
+    transaction_hash    TEXT                        NOT NULL
 );

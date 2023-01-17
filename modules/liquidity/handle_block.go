@@ -3,6 +3,7 @@ package liquidity
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	dbtypes "github.com/cybercongress/cyberindex/database"
 	"github.com/forbole/juno/v3/types"
 	"github.com/rs/zerolog/log"
 	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
@@ -104,21 +105,58 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 			}
 
 			for poolID := range poolsRateMap {
+				// return err nil if not found and default pool row, later will panic on error
 				pool, err := m.db.GetPoolInfo(poolID)
 				if err == nil {
+					// if we sync from non zero and parse current block
+					// than save pool not from message but with query from application state
+					if len(pool.Address) == 0 {
+						poolState, err := m.keeper.GetPool(poolID, height)
+						if err != nil {
+							panic(err)
+						}
+						pool = dbtypes.PoolRow{
+							PoolId:    int64(poolState.Id),
+							PoolName:  poolState.Name(),
+							Address:   poolState.ReserveAccountAddress,
+							ADenom:    poolState.ReserveCoinDenoms[0],
+							BDenom:    poolState.ReserveCoinDenoms[1],
+							PoolDenom: poolState.PoolCoinDenom,
+						}
+						err = m.db.SavePool(
+							poolState.Id,
+							poolState.ReserveAccountAddress,
+							poolState.Name(),
+							poolState.ReserveCoinDenoms[0],
+							poolState.ReserveCoinDenoms[1],
+							poolState.PoolCoinDenom,
+						)
+						if err != nil {
+							panic(err)
+						}
+					}
+					
 					err := m.bankModule.RefreshBalances(height, []string{pool.Address})
 					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
 					}
+					// if not in db that query application state
 					poolBalances, err := m.db.GetAccountBalance(pool.Address)
+					if len(poolBalances) == 0 {
+						balances, err := m.bankModule.GetBalances([]string{pool.Address}, height)
+						if err != nil {
+							panic(err)
+						}
+						poolBalances = balances[0].Balance
+					}
 					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
 					}
 					var coins = sdk.NewCoins(poolBalances...)
 					err = m.db.SaveLiquidity(
 						poolID,
-						sdk.NewCoin(pool.DepositA.Denom, coins.AmountOfNoDenomValidation(pool.DepositA.Denom)),
-						sdk.NewCoin(pool.DepositB.Denom, coins.AmountOfNoDenomValidation(pool.DepositB.Denom)),
+						sdk.NewCoin(pool.ADenom, coins.AmountOfNoDenomValidation(pool.ADenom)),
+						sdk.NewCoin(pool.BDenom, coins.AmountOfNoDenomValidation(pool.BDenom)),
 						timestamp,
 					)
 					if err != nil {
@@ -134,6 +172,7 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 	return nil
 }
 
+// not used, refactor
 func (m *Module) executePoolCreations(height int64, beginBlockEvents []abcitypes.Event, timestamp time.Time) error {
 	events := types.FindEventsByType(beginBlockEvents, liquiditytypes.EventTypeCreatePool)
 	for _, event := range events {
@@ -166,8 +205,8 @@ func (m *Module) executePoolCreations(height int64, beginBlockEvents []abcitypes
 			pool_id,
 			pool_name,
 			reverse_account,
-			deposit[0],
-			deposit[1],
+			deposit[0].Denom,
+			deposit[1].Denom,
 			pool_denom,
 		)
 	}

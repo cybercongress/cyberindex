@@ -12,6 +12,8 @@ import (
 	"github.com/cybercongress/cyberindex/modules/graph"
 	"github.com/cybercongress/cyberindex/modules/grid"
 	"github.com/cybercongress/cyberindex/modules/liquidity"
+	liquiditysource "github.com/cybercongress/cyberindex/modules/liquidity/source"
+	remoteliquiditysource "github.com/cybercongress/cyberindex/modules/liquidity/source/remote"
 	"github.com/cybercongress/cyberindex/modules/resources"
 	"github.com/cybercongress/cyberindex/modules/wasm"
 	"github.com/cybercongress/go-cyber/app"
@@ -25,6 +27,7 @@ import (
 	nodeconfig "github.com/forbole/juno/v3/node/config"
 	"github.com/forbole/juno/v3/node/local"
 	"github.com/forbole/juno/v3/node/remote"
+	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
 	"github.com/tendermint/tendermint/libs/log"
 	"os"
 )
@@ -57,7 +60,7 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 	gridModule := grid.NewModule(r.parser, cdc, cyberDb)
 	wasmModule := wasm.NewModule(r.parser, cdc, cyberDb)
 	resourceModule := resources.NewModule(r.parser, cdc, cyberDb)
-	liquidityModule := liquidity.NewModule(r.parser, cdc, bankModule, authModule, cyberDb)
+	liquidityModule := liquidity.NewModule(r.parser, cdc, bankModule, authModule, sources.LiquiditySource, cyberDb)
 
 	return []jmodules.Module{
 		messages.NewModule(r.parser, cdc, ctx.Database),
@@ -73,7 +76,8 @@ func (r *Registrar) BuildModules(ctx registrar.Context) jmodules.Modules {
 }
 
 type Sources struct {
-	BankSource banksource.Source
+	BankSource      banksource.Source
+	LiquiditySource liquiditysource.Source
 }
 
 func BuildSources(nodeCfg nodeconfig.Config, encodingConfig *params.EncodingConfig) (*Sources, error) {
@@ -111,6 +115,7 @@ func buildRemoteSources(cfg *remote.Details) (*Sources, error) {
 	}
 
 	return &Sources{
-		BankSource: remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+		BankSource:      remotebanksource.NewSource(source, banktypes.NewQueryClient(source.GrpcConn)),
+		LiquiditySource: remoteliquiditysource.NewSource(source, liquiditytypes.NewQueryClient(source.GrpcConn)),
 	}, nil
 }

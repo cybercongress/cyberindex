@@ -15,8 +15,8 @@ CREATE TABLE pools
     pool_id                     BIGINT NOT NULL PRIMARY KEY,
     pool_name                   TEXT   NOT NULL,
     address                     TEXT   NOT NULL,
-    deposit_a                   COIN   NOT NULL,
-    deposit_b                   COIN   NOT NULL,
+    a_denom                     TEXT   NOT NULL,
+    b_denom                     TEXT   NOT NULL,
     pool_denom                  TEXT   NOT NULL
 );
 

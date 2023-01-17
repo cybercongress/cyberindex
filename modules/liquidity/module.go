@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cybercongress/cyberindex/database"
+	"github.com/cybercongress/cyberindex/modules/liquidity/source"
 	"github.com/forbole/juno/v3/modules"
 	"github.com/forbole/juno/v3/modules/messages"
 	"github.com/forbole/juno/v3/types"
@@ -20,9 +21,10 @@ var (
 type Module struct {
 	messagesParser messages.MessageAddressesParser
 	cdc            codec.Codec
-	db             *database.CyberDb
 	bankModule     BankModule
 	authModule     AuthModule
+	keeper         source.Source
+	db             *database.CyberDb
 }
 
 func NewModule(
@@ -30,14 +32,16 @@ func NewModule(
 	cdc codec.Codec,
 	bankModule BankModule,
 	authModule AuthModule,
+	keeper source.Source,
 	db *database.CyberDb,
 ) *Module {
 	return &Module{
 		messagesParser: messagesParser,
 		cdc:            cdc,
-		db:             db,
 		bankModule:     bankModule,
 		authModule:     authModule,
+		keeper:         keeper,
+		db:             db,
 	}
 }
 

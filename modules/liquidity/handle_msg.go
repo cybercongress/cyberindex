@@ -87,8 +87,8 @@ func (m *Module) handleMsgMsgCreatePool(tx *types.Tx, index int, msg *liquidityt
 		pool_id,
 		reverse_account,
 		pool_name,
-		deposit[0],
-		deposit[1],
+		deposit[0].Denom,
+		deposit[1].Denom,
 		pool_denom,
 	)
 
