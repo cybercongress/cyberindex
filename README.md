@@ -47,9 +47,10 @@ Download genesis account states:
 wget -O database/schema/genesis.csv https://gateway.ipfs.cybernode.ai/ipfs/QmWxvLnFZDJUrjTjNDt4BfanzncdbzTMfSQmkNAACQ8ZaF
 ```
 
-Inititate the additional views and tables:
+Initiate the additional views and tables:
 
 ```bash
+source .env && \
 docker exec -ti cyberindex_postgres psql -f /root/schema/views.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
 ```
 
@@ -77,7 +78,7 @@ Download cybergift with proofs file:
 wget -O database/schema/cyber_gift_proofs.csv https://gateway.ipfs.cybernode.ai/ipfs/QmVvMuFN3EmMdowYuhBnLcZZLtbGDtF4a7fZFiNK627gPZ
 ```
 
-Inititate the `cyber_gift_proofs` table:
+Initiate the `cyber_gift_proofs` table:
 
 ```bash
 docker exec -ti cyberindex_postgres psql -f /root/schema/cyber_gift.sql -d $POSTGRES_DB_NAME -U $POSTGRES_USER_NAME
