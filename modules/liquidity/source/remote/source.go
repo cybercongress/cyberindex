@@ -37,6 +37,16 @@ func (s Source) GetPool(poolID uint64, height int64) (liquiditytypes.Pool, error
 	return res.Pool, nil
 }
 
+func (s Source) GetAllPools(height int64) ([]liquiditytypes.Pool, error) {
+	header := GetHeightRequestHeader(height)
+	res, err := s.liquidityClient.LiquidityPools(s.Ctx, &liquiditytypes.QueryLiquidityPoolsRequest{}, header)
+	if err != nil {
+		panic(err)
+	}
+
+	return res.Pools, err
+}
+
 func GetHeightRequestHeader(height int64) grpc.CallOption {
 	header := metadata.New(map[string]string{
 		grpctypes.GRPCBlockHeightHeader: strconv.FormatInt(height, 10),

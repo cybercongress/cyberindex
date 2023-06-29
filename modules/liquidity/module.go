@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	_ modules.Module        = &Module{}
-	_ modules.MessageModule = &Module{}
-	_ modules.BlockModule   = &Module{}
-	_ modules.PeriodicOperationsModule
+	_ modules.Module                     = &Module{}
+	_ modules.MessageModule              = &Module{}
+	_ modules.BlockModule                = &Module{}
+	_ modules.PeriodicOperationsModule   = &Module{}
+	_ modules.AdditionalOperationsModule = &Module{}
 )
 
 type Module struct {
