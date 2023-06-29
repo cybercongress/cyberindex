@@ -3,7 +3,6 @@ package liquidity
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/cybercongress/cyberindex/database"
 	"github.com/forbole/juno/v3/types"
 	"github.com/rs/zerolog/log"
 	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
@@ -26,8 +25,9 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 		attrs := eventAttrsFromEvent(event)
 		status, err := attrs.SwapStatus()
 		if err != nil {
-			return err
+			continue
 		}
+
 		if status {
 			addr, err := attrs.SwapRequesterAddr()
 			if err != nil {
@@ -43,24 +43,44 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 				return err
 			}
 
+			orderPrice, err := attrs.OrderPrice()
+			if err != nil {
+				return err
+			}
+
 			exchangedOfferCoin, err := attrs.CoinAttrs(liquiditytypes.AttributeValueOfferCoinDenom, liquiditytypes.AttributeValueExchangedOfferCoinAmount)
+			if err != nil {
+				panic(err)
+			}
 			exchangedDemandCoin, err := attrs.CoinAttrs(liquiditytypes.AttributeValueDemandCoinDenom, liquiditytypes.AttributeValueExchangedDemandCoinAmount)
+			if err != nil {
+				panic(err)
+			}
 			exchangedOfferCoinFee, err := attrs.CoinAttrs(liquiditytypes.AttributeValueOfferCoinDenom, liquiditytypes.AttributeValueOfferCoinFeeAmount)
+			if err != nil {
+				panic(err)
+			}
 			feeDec, err := attrs.DecCoinAttrs(liquiditytypes.AttributeValueDemandCoinDenom, liquiditytypes.AttributeValueExchangedCoinFeeAmount)
+			if err != nil {
+				panic(err)
+			}
 			exchangedDemandCoinFee := sdk.NewCoin(feeDec.Denom, feeDec.Amount.Ceil().TruncateInt())
 
 			err = m.db.SaveSwap(
 				addr,
 				poolID,
+				orderPrice,
 				swapPrice,
 				exchangedOfferCoin,
 				exchangedDemandCoin,
 				exchangedOfferCoinFee,
 				exchangedDemandCoinFee,
 				height,
+				timestamp,
 			)
 			if err != nil {
 				fmt.Errorf("error while saving swap: %s", err)
+				panic(err)
 			}
 
 			poolsRateMap[poolID] = swapPrice
@@ -89,7 +109,9 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 					timestamp,
 				)
 				if err != nil {
-					fmt.Errorf("error while saving volume: %s", err)
+					log.Error().Str("module", "liquidity").Err(fmt.Errorf("error while saving volume: %s", err))
+					// TODO fails of pool 20 (ibc/4B322204B4F59D770680FE4D7A565DDC3F37BFF035474B717476C66A4F83DD72 - decimal 18)
+					//panic(err)
 				}
 			}
 
@@ -101,6 +123,7 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 				)
 				if err != nil {
 					fmt.Errorf("error while saving rate: %s", err)
+					panic(err)
 				}
 			}
 
@@ -108,39 +131,15 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 				// return err nil if not found and default pool row, later will panic on error
 				pool, err := m.db.GetPoolInfo(poolID)
 				if err == nil {
-					// if we sync from non zero and parse current block
-					// than save pool not from message but with query from application state
-					if len(pool.Address) == 0 {
-						poolState, err := m.keeper.GetPool(poolID, height)
-						if err != nil {
-							panic(err)
-						}
-						pool = dbtypes.PoolRow{
-							PoolId:    int64(poolState.Id),
-							PoolName:  poolState.Name(),
-							Address:   poolState.ReserveAccountAddress,
-							ADenom:    poolState.ReserveCoinDenoms[0],
-							BDenom:    poolState.ReserveCoinDenoms[1],
-							PoolDenom: poolState.PoolCoinDenom,
-						}
-						err = m.db.SavePool(
-							poolState.Id,
-							poolState.ReserveAccountAddress,
-							poolState.Name(),
-							poolState.ReserveCoinDenoms[0],
-							poolState.ReserveCoinDenoms[1],
-							poolState.PoolCoinDenom,
-						)
-						if err != nil {
-							panic(err)
-						}
-					}
-					
+					// NOTE - already updated as transacted, but check the flow anyway
 					err := m.bankModule.RefreshBalances(height, []string{pool.Address})
 					if err != nil {
+						//error while storing up-to-date balances: error while storing up-to-date balances: pq: insert or update on table "account_balance" violates foreign key constraint "account_balance_address_fkey"
 						log.Debug().Str("module", "liquidity").Err(err)
+						//panic(err)
 					}
-					// if not in db that query application state
+
+					// NOTE if not in db than query application state
 					poolBalances, err := m.db.GetAccountBalance(pool.Address)
 					if len(poolBalances) == 0 {
 						balances, err := m.bankModule.GetBalances([]string{pool.Address}, height)
@@ -166,13 +165,52 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 					log.Debug().Str("module", "liquidity").Err(err)
 				}
 			}
+		} else {
+			fmt.Errorf("error while saving swap: %s", "FAILED_SWAP")
+
+			addr, err := attrs.SwapRequesterAddr()
+			if err != nil {
+				return err
+			}
+			poolID, err := attrs.PoolID()
+			if err != nil {
+				return err
+			}
+
+			orderPrice, err := attrs.OrderPrice()
+			if err != nil {
+				return err
+			}
+
+			exchangedOfferCoin, err := attrs.CoinAttrs(liquiditytypes.AttributeValueOfferCoinDenom, liquiditytypes.AttributeValueExchangedOfferCoinAmount)
+			if err != nil {
+				panic(err)
+			}
+			remainingOfferCoin, err := attrs.CoinAttrs(liquiditytypes.AttributeValueOfferCoinDenom, liquiditytypes.AttributeValueRemainingOfferCoinAmount)
+			if err != nil {
+				panic(err)
+			}
+
+			err = m.db.SaveFailedSwap(
+				addr,
+				poolID,
+				orderPrice,
+				exchangedOfferCoin,
+				remainingOfferCoin,
+				height,
+				timestamp,
+			)
+			if err != nil {
+				fmt.Errorf("error while saving swap: %s", err)
+				panic(err)
+			}
 		}
 	}
 
 	return nil
 }
 
-// not used, refactor
+// not used, to delete before merge
 func (m *Module) executePoolCreations(height int64, beginBlockEvents []abcitypes.Event, timestamp time.Time) error {
 	events := types.FindEventsByType(beginBlockEvents, liquiditytypes.EventTypeCreatePool)
 	for _, event := range events {
@@ -311,6 +349,18 @@ func (attrs EventAttributes) SwapPrice() (sdk.Dec, error) {
 	return d, nil
 }
 
+func (attrs EventAttributes) OrderPrice() (sdk.Dec, error) {
+	v, err := attrs.Attr(liquiditytypes.AttributeValueOrderPrice)
+	if err != nil {
+		return sdk.Dec{}, err
+	}
+	d, err := sdk.NewDecFromStr(v)
+	if err != nil {
+		return sdk.Dec{}, fmt.Errorf("parse swap price: %w", err)
+	}
+	return d, nil
+}
+
 func (attrs EventAttributes) CoinAttrs(denomKey, amountKey string) (sdk.Coin, error) {
 	denom, err := attrs.Attr(denomKey)
 	if err != nil {
@@ -383,7 +433,6 @@ func (attrs EventAttributes) ReserveAccount() (string, error) {
 	return v, nil
 }
 
-//sdk.NewAttribute(types.AttributeValueDepositCoins, msg.DepositCoins.String()),
 func (attrs EventAttributes) PoolDepositCoins() ([]sdk.Coin, error) {
 	v, err := attrs.Attr(liquiditytypes.AttributeValueDepositCoins)
 	coins := strings.Split(v, ",")

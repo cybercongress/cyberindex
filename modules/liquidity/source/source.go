@@ -6,4 +6,5 @@ import (
 
 type Source interface {
 	GetPool(poolID uint64, height int64) (types.Pool, error)
+	GetAllPools(height int64) ([]types.Pool, error)
 }

@@ -34,16 +34,18 @@ VALUES ($1, $2, $3, $4, $5, $6)`
 func (db *CyberDb) SaveSwap(
 	address string,
 	poolID uint64,
+	orderPrice sdk.Dec,
 	swapPrice sdk.Dec,
 	exchangedOfferCoin sdk.Coin,
 	exchangedDemandCoin sdk.Coin,
 	exchangedOfferCoinFee sdk.Coin,
 	exchangedDemandCoinFee sdk.Coin,
 	height int64,
+	timestamp time.Time,
 ) error {
 	stmt := `
-INSERT INTO swaps (pool_id, address, swap_price, exchanged_offer_coin, exchanged_demand_coin, exchanged_offer_coin_fee, exchanged_demand_coin_fee, height) 
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+INSERT INTO swaps (pool_id, address, order_price, swap_price, exchanged_offer_coin, exchanged_demand_coin, exchanged_offer_coin_fee, exchanged_demand_coin_fee, height, timestamp) 
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
 	exchangedOfferCoinDb := bddbtypes.DbCoin{Amount: exchangedOfferCoin.Amount.String(), Denom: exchangedOfferCoin.Denom}
 	exchangedOfferCoinValue, err := exchangedOfferCoinDb.Value()
 	if err != nil {
@@ -68,12 +70,49 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 		stmt,
 		poolID,
 		address,
+		orderPrice.String(),
 		swapPrice.String(),
 		exchangedOfferCoinValue,
 		exchangedDemandCoinValue,
 		exchangedOfferCoinFeeValue,
 		exchangedDemandCoinFeeValue,
 		height,
+		timestamp,
+	)
+	return err
+}
+
+func (db *CyberDb) SaveFailedSwap(
+	address string,
+	poolID uint64,
+	orderPrice sdk.Dec,
+	exchangedOfferCoin sdk.Coin,
+	remainingOfferCoin sdk.Coin,
+	height int64,
+	timestamp time.Time,
+) error {
+	stmt := `
+INSERT INTO failed_swaps (pool_id, address, order_price, exchanged_offer_coin, remaining_offer_coin, height, timestamp) 
+VALUES ($1, $2, $3, $4, $5, $6, $7)`
+	exchangedOfferCoinDb := bddbtypes.DbCoin{Amount: exchangedOfferCoin.Amount.String(), Denom: exchangedOfferCoin.Denom}
+	exchangedOfferCoinValue, err := exchangedOfferCoinDb.Value()
+	if err != nil {
+		return fmt.Errorf("error while converting coin to dbcoin: %s", err)
+	}
+	exchangedDemandCoinDb := bddbtypes.DbCoin{Amount: remainingOfferCoin.Amount.String(), Denom: remainingOfferCoin.Denom}
+	exchangedDemandCoinValue, err := exchangedDemandCoinDb.Value()
+	if err != nil {
+		return fmt.Errorf("error while converting coin to dbcoin: %s", err)
+	}
+	_, err = db.Sql.Exec(
+		stmt,
+		poolID,
+		address,
+		orderPrice.String(),
+		exchangedOfferCoinValue,
+		exchangedDemandCoinValue,
+		height,
+		timestamp,
 	)
 	return err
 }
