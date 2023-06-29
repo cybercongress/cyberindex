@@ -109,8 +109,9 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 					timestamp,
 				)
 				if err != nil {
-					fmt.Errorf("error while saving volume: %s", err)
-					panic(err)
+					log.Error().Str("module", "liquidity").Err(fmt.Errorf("error while saving volume: %s", err))
+					// TODO fails of pool 20 (ibc/4B322204B4F59D770680FE4D7A565DDC3F37BFF035474B717476C66A4F83DD72 - decimal 18)
+					//panic(err)
 				}
 			}
 
