@@ -2,7 +2,7 @@ package liquidity
 
 import (
 	"fmt"
-	"github.com/cybercongress/cyberindex/v1/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 	"github.com/forbole/bdjuno/v3/modules/utils"
 	"github.com/rs/zerolog/log"
 	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"

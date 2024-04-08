@@ -6,7 +6,7 @@ import (
 
 	"github.com/forbole/juno/v3/types"
 
-	"github.com/cybercongress/cyberindex/v1/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 )
 
 func HandleMsg(

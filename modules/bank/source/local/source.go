@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/forbole/juno/v3/node/local"
 
-	"github.com/cybercongress/cyberindex/v1/modules/bank/source"
+	"github.com/cybercongress/cyberindex/v2/modules/bank/source"
 	"github.com/forbole/bdjuno/v3/types"
 )
 
