@@ -3,13 +3,17 @@ module github.com/cybercongress/cyberindex/v1
 go 1.18
 
 require (
-	github.com/CosmWasm/wasmd v0.29.2
+	github.com/CosmWasm/wasmd v0.28.0
 	github.com/cosmos/cosmos-sdk v0.45.9
-	github.com/cybercongress/go-cyber v0.3.2
+	github.com/cybercongress/go-cyber/v2 v2.0.0
 	github.com/forbole/bdjuno/v3 v3.2.0
 	github.com/forbole/juno/v3 v3.4.0
+	github.com/go-co-op/gocron v1.16.1
 	github.com/lib/pq v1.10.6
+	github.com/rs/zerolog v1.27.0
+	github.com/tendermint/liquidity v1.5.0
 	github.com/tendermint/tendermint v0.34.21
+	google.golang.org/grpc v1.49.0
 )
 
 require (
@@ -28,11 +32,9 @@ require (
 	github.com/coinbase/rosetta-sdk-go v0.7.0 // indirect
 	github.com/confio/ics23/go v0.7.0 // indirect
 	github.com/cosmos/btcutil v1.0.4 // indirect
-	github.com/cosmos/cosmos-proto v1.0.0-alpha7 // indirect
 	github.com/cosmos/go-bip39 v1.0.0 // indirect
-	github.com/cosmos/gogoproto v1.4.2 // indirect
 	github.com/cosmos/gorocksdb v1.2.0 // indirect
-	github.com/cosmos/iavl v0.19.3 // indirect
+	github.com/cosmos/iavl v0.19.4 // indirect
 	github.com/cosmos/ibc-go/v3 v3.3.0 // indirect
 	github.com/cosmos/ledger-cosmos-go v0.11.1 // indirect
 	github.com/cosmos/ledger-go v0.9.2 // indirect
@@ -46,7 +48,6 @@ require (
 	github.com/dvsekhvalnov/jose2go v1.5.0 // indirect
 	github.com/felixge/httpsnoop v1.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
-	github.com/go-co-op/gocron v1.16.1 // indirect
 	github.com/go-kit/kit v0.12.0 // indirect
 	github.com/go-kit/log v0.2.1 // indirect
 	github.com/go-logfmt/logfmt v0.5.1 // indirect
@@ -62,6 +63,7 @@ require (
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/gravity-devs/liquidity v1.5.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.0.1 // indirect
@@ -110,7 +112,6 @@ require (
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/rogpeppe/go-internal v1.6.2 // indirect
 	github.com/rs/cors v1.8.2 // indirect
-	github.com/rs/zerolog v1.27.0 // indirect
 	github.com/sasha-s/go-deadlock v0.2.1-0.20190427202633-1595213edefa // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/spf13/afero v1.8.2 // indirect
@@ -125,7 +126,6 @@ require (
 	github.com/tendermint/btcd v0.1.1 // indirect
 	github.com/tendermint/crypto v0.0.0-20191022145703-50d29ede1e15 // indirect
 	github.com/tendermint/go-amino v0.16.0 // indirect
-	github.com/tendermint/liquidity v1.5.0 // indirect
 	github.com/tendermint/tm-db v0.6.7 // indirect
 	github.com/zondax/hid v0.9.0 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
@@ -137,7 +137,6 @@ require (
 	golang.org/x/term v0.0.0-20220722155259-a9ba230a4035 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20220725144611-272f38e5d71b // indirect
-	google.golang.org/grpc v1.49.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -145,18 +144,8 @@ require (
 	nhooyr.io/websocket v1.8.6 // indirect
 )
 
-replace github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
-
-//replace github.com/forbole/juno/v2 => github.com/cybercongress/juno/v2 v2.0.0-20211018140718-c2d5f12956c6
-
-//replace github.com/forbole/bdjuno/v2 => github.com/cybercongress/bdjuno/v2 v2.0.0-20211019091916-b4097a67b2a0
-
-//replace github.com/CosmWasm/wasmd => github.com/cybercongress/wasmd v0.21.0
-
-//replace github.com/CosmWasm/wasmvm => github.com/CosmWasm/wasmvm v1.0.0-beta
-
-replace github.com/tendermint/tendermint => github.com/tendermint/tendermint v0.34.19
-
-//replace github.com/cosmos/cosmos-sdk => github.com/cosmos/cosmos-sdk v0.45.9
-
-replace google.golang.org/grpc => google.golang.org/grpc v1.33.2
+replace (
+	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+	github.com/tendermint/tendermint => github.com/tendermint/tendermint v0.34.19
+	google.golang.org/grpc => google.golang.org/grpc v1.33.2
+)
