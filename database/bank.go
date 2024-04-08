@@ -2,9 +2,9 @@ package database
 
 import (
 	"fmt"
-	types2 "github.com/cybercongress/cyberindex/v1/database/types"
+	types2 "github.com/cybercongress/cyberindex/v2/database/types"
 
-	dbutils "github.com/cybercongress/cyberindex/v1/database/utils"
+	dbutils "github.com/cybercongress/cyberindex/v2/database/utils"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/lib/pq"
