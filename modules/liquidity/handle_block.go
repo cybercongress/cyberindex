@@ -3,7 +3,7 @@ package liquidity
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/cybercongress/cyberindex/database"
+	dbtypes "github.com/cybercongress/cyberindex/v1/database"
 	"github.com/forbole/juno/v3/types"
 	"github.com/rs/zerolog/log"
 	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
@@ -135,7 +135,7 @@ func (m *Module) executePoolBatches(height int64, endBlockEvents []abcitypes.Eve
 							panic(err)
 						}
 					}
-					
+
 					err := m.bankModule.RefreshBalances(height, []string{pool.Address})
 					if err != nil {
 						log.Debug().Str("module", "liquidity").Err(err)
@@ -383,7 +383,7 @@ func (attrs EventAttributes) ReserveAccount() (string, error) {
 	return v, nil
 }
 
-//sdk.NewAttribute(types.AttributeValueDepositCoins, msg.DepositCoins.String()),
+// sdk.NewAttribute(types.AttributeValueDepositCoins, msg.DepositCoins.String()),
 func (attrs EventAttributes) PoolDepositCoins() ([]sdk.Coin, error) {
 	v, err := attrs.Attr(liquiditytypes.AttributeValueDepositCoins)
 	coins := strings.Split(v, ",")

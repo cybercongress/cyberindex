@@ -1,4 +1,4 @@
-module github.com/cybercongress/cyberindex
+module github.com/cybercongress/cyberindex/v1
 
 go 1.18
 

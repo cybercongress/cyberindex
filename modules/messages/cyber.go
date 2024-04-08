@@ -3,9 +3,9 @@ package messages
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
-	gridtypes "github.com/cybercongress/go-cyber/x/grid/types"
-	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
+	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
+	gridtypes "github.com/cybercongress/go-cyber/v2/x/grid/types"
+	resourcestypes "github.com/cybercongress/go-cyber/v2/x/resources/types"
 	junomessages "github.com/forbole/juno/v3/modules/messages"
 )
 

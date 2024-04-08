@@ -1,7 +1,7 @@
 package database
 
 import (
-	graphtypes "github.com/cybercongress/go-cyber/x/graph/types"
+	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
 )
 
 func (db *CyberDb) SaveCyberlinks(
@@ -10,7 +10,7 @@ func (db *CyberDb) SaveCyberlinks(
 	timestamp string,
 	height int64,
 	txHash string,
-	) error {
+) error {
 	queryCyberlinks := `
 		INSERT INTO cyberlinks (particle_from, particle_to, neuron, timestamp, height, transaction_hash)
 		VALUES ($1, $2, $3, $4, $5, $6) ON CONFLICT DO NOTHING

@@ -2,11 +2,11 @@ package resources
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	resourcestypes "github.com/cybercongress/go-cyber/x/resources/types"
+	resourcestypes "github.com/cybercongress/go-cyber/v2/x/resources/types"
 
 	"github.com/forbole/juno/v3/types"
 
-	"github.com/cybercongress/cyberindex/database"
+	"github.com/cybercongress/cyberindex/v1/database"
 )
 
 func HandleMsg(

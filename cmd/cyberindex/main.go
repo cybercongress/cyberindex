@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/cybercongress/cyberindex/modules"
+	"github.com/cybercongress/cyberindex/v1/modules"
 	"github.com/forbole/bdjuno/v3/types/config"
 	"github.com/forbole/juno/v3/cmd"
 	junomessages "github.com/forbole/juno/v3/modules/messages"
 
-	cybermessages "github.com/cybercongress/cyberindex/modules/messages"
-	cyberapp "github.com/cybercongress/go-cyber/app"
+	cybermessages "github.com/cybercongress/cyberindex/v1/modules/messages"
+	cyberapp "github.com/cybercongress/go-cyber/v2/app"
 	"github.com/forbole/bdjuno/v3/database"
 	initcmd "github.com/forbole/juno/v3/cmd/init"
 	parsecmd "github.com/forbole/juno/v3/cmd/parse"
