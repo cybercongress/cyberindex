@@ -5,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cybercongress/cyberindex/v3/database"
 	cybertypes "github.com/cybercongress/cyberindex/v3/database/types"
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 )
 
 // HandleMsg allows to handle the different utils related to the gov module

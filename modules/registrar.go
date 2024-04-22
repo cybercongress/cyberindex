@@ -1,9 +1,9 @@
 package modules
 
 import (
+	"cosmossdk.io/simapp/params"
 	"fmt"
 	"github.com/cometbft/cometbft/libs/log"
-	"github.com/cosmos/cosmos-sdk/simapp/params"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	cyberdb "github.com/cybercongress/cyberindex/v3/database"
 	"github.com/cybercongress/cyberindex/v3/modules/bank"

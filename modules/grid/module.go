@@ -1,11 +1,11 @@
 package grid
 
 import (
-	"github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v5/modules"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v3/modules/messages"
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/modules/messages"
+	"github.com/forbole/juno/v5/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cybercongress/cyberindex/v3/database"
