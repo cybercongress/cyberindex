@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/forbole/juno/v5/node/local"
 
-	"github.com/cybercongress/cyberindex/v3/modules/bank/source"
+	"github.com/cybercongress/cyberindex/v2/modules/bank/source"
 	"github.com/forbole/callisto/v4/types"
 )
 

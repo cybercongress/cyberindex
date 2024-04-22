@@ -1,13 +1,13 @@
 package modules
 
 import (
-	cyberdb "github.com/cybercongress/cyberindex/v3/database"
-	"github.com/cybercongress/cyberindex/v3/modules/bank"
-	"github.com/cybercongress/cyberindex/v3/modules/graph"
-	"github.com/cybercongress/cyberindex/v3/modules/grid"
-	"github.com/cybercongress/cyberindex/v3/modules/resources"
-	"github.com/cybercongress/cyberindex/v3/modules/types"
-	"github.com/cybercongress/cyberindex/v3/modules/wasm"
+	cyberdb "github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v2/modules/bank"
+	"github.com/cybercongress/cyberindex/v2/modules/graph"
+	"github.com/cybercongress/cyberindex/v2/modules/grid"
+	"github.com/cybercongress/cyberindex/v2/modules/resources"
+	"github.com/cybercongress/cyberindex/v2/modules/types"
+	"github.com/cybercongress/cyberindex/v2/modules/wasm"
 	"github.com/forbole/callisto/v4/database"
 	"github.com/forbole/callisto/v4/modules"
 	"github.com/forbole/callisto/v4/modules/auth"

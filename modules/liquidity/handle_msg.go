@@ -2,7 +2,7 @@ package liquidity
 
 import (
 	"fmt"
-	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
 	"github.com/forbole/callisto/v4/modules/utils"
 	"github.com/rs/zerolog/log"

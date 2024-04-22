@@ -2,7 +2,7 @@ package wasm
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 	"github.com/forbole/juno/v5/modules"
 	"github.com/forbole/juno/v5/modules/messages"
 )

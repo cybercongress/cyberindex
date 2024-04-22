@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/cybercongress/cyberindex/v3/modules"
+	"github.com/cybercongress/cyberindex/v2/modules"
 	cyberapp "github.com/cybercongress/go-cyber/v4/app"
 	migratecmd "github.com/forbole/callisto/v4/cmd/migrate"
 	"github.com/forbole/callisto/v4/database"

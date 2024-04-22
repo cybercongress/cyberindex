@@ -2,8 +2,8 @@ package bank
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v3/database"
-	"github.com/cybercongress/cyberindex/v3/modules/bank/source"
+	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v2/modules/bank/source"
 	"github.com/forbole/callisto/v4/types"
 	junomessages "github.com/forbole/juno/v5/modules/messages"
 

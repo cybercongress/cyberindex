@@ -4,7 +4,7 @@ import (
 	"fmt"
 	abcitypes "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/cybercongress/cyberindex/v3/database"
+	dbtypes "github.com/cybercongress/cyberindex/v2/database"
 	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
 	"github.com/forbole/juno/v5/types"
 	"github.com/rs/zerolog/log"

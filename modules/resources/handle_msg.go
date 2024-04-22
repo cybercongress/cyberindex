@@ -7,7 +7,7 @@ import (
 
 	"github.com/forbole/juno/v5/types"
 
-	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 )
 
 func (m *Module) HandleMsgExec(index int, _ *authz.MsgExec, _ int, executedMsg sdk.Msg, tx *types.Tx) error {
