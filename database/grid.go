@@ -2,7 +2,7 @@ package database
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/forbole/bdjuno/v3/database/types"
+	dbtypes "github.com/forbole/callisto/v4/database/types"
 	"github.com/lib/pq"
 )
 
@@ -21,7 +21,7 @@ func (db *CyberDb) SaveRoute(
 
 	coins := pq.Array(dbtypes.NewDbCoins(sdk.Coins{}))
 
-	_, err := db.Sql.Exec(query,
+	_, err := db.SQL.Exec(query,
 		source,
 		destination,
 		alias,
@@ -61,7 +61,7 @@ func (db *CyberDb) DeleteRoute(
 ) error {
 	query := `DELETE FROM routes WHERE source = $1 AND destination = $2`
 
-	_, err := db.Sql.Exec(query, source, destination)
+	_, err := db.SQL.Exec(query, source, destination)
 	if err != nil {
 		return err
 	}

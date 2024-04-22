@@ -5,10 +5,10 @@ CREATE TABLE account
 
 /* ---- Moved from bank.sql for vesting account usage ---- */
 CREATE TYPE COIN AS
-    (
+(
     denom  TEXT,
     amount TEXT
-    );
+);
 
 /* ---- AUTH/ VESTING ACCOUNT ---- */
 CREATE TABLE vesting_account

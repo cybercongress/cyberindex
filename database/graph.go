@@ -1,7 +1,7 @@
 package database
 
 import (
-	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
+	graphtypes "github.com/cybercongress/go-cyber/v4/x/graph/types"
 )
 
 func (db *CyberDb) SaveCyberlinks(
@@ -21,7 +21,7 @@ func (db *CyberDb) SaveCyberlinks(
 	`
 
 	for i, _ := range cyberlinks {
-		_, err := db.Sql.Exec(queryCyberlinks,
+		_, err := db.SQL.Exec(queryCyberlinks,
 			cyberlinks[i].From,
 			cyberlinks[i].To,
 			neuron,
@@ -33,7 +33,7 @@ func (db *CyberDb) SaveCyberlinks(
 			return err
 		}
 
-		_, err = db.Sql.Exec(queryParticles,
+		_, err = db.SQL.Exec(queryParticles,
 			cyberlinks[i].From,
 			neuron,
 			timestamp,
@@ -44,7 +44,7 @@ func (db *CyberDb) SaveCyberlinks(
 			return err
 		}
 
-		_, err = db.Sql.Exec(queryParticles,
+		_, err = db.SQL.Exec(queryParticles,
 			cyberlinks[i].To,
 			neuron,
 			timestamp,
