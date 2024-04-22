@@ -8,7 +8,7 @@ import (
 	"github.com/forbole/juno/v3/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v3/database"
 )
 
 var (

@@ -3,8 +3,8 @@ package liquidity
 import (
 	"fmt"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v2/database"
-	"github.com/cybercongress/cyberindex/v2/modules/liquidity/source"
+	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v3/modules/liquidity/source"
 	"github.com/forbole/juno/v3/modules"
 	"github.com/forbole/juno/v3/modules/messages"
 	"github.com/forbole/juno/v3/types"

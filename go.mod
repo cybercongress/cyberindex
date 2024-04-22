@@ -1,6 +1,6 @@
-module github.com/cybercongress/cyberindex/v2
+module github.com/cybercongress/cyberindex/v3
 
-go 1.18
+go 1.22.2
 
 require (
 	github.com/CosmWasm/wasmd v0.28.0
