@@ -3,12 +3,20 @@ package wasm
 import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/authz"
 	"github.com/cybercongress/cyberindex/v3/database"
 	cybertypes "github.com/cybercongress/cyberindex/v3/database/types"
 	"github.com/forbole/juno/v5/types"
 )
 
-// HandleMsg allows to handle the different utils related to the gov module
+func (m *Module) HandleMsgExec(index int, _ *authz.MsgExec, _ int, executedMsg sdk.Msg, tx *types.Tx) error {
+	return m.HandleMsg(index, executedMsg, tx)
+}
+
+func (m *Module) HandleMsg(index int, msg sdk.Msg, tx *types.Tx) error {
+	return HandleMsg(tx, index, msg, m.db)
+}
+
 func HandleMsg(
 	tx *types.Tx,
 	index int,

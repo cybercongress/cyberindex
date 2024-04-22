@@ -2,10 +2,7 @@ package grid
 
 import (
 	"github.com/forbole/juno/v5/modules"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/forbole/juno/v5/modules/messages"
-	"github.com/forbole/juno/v5/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cybercongress/cyberindex/v3/database"
@@ -36,8 +33,4 @@ func NewModule(
 
 func (m *Module) Name() string {
 	return "grid"
-}
-
-func (m *Module) HandleMsg(_ int, msg sdk.Msg, tx *types.Tx) error {
-	return HandleMsg(tx, msg, m.db)
 }

@@ -2,11 +2,9 @@ package resources
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cybercongress/cyberindex/v3/database"
 	"github.com/forbole/juno/v5/modules"
 	"github.com/forbole/juno/v5/modules/messages"
-	"github.com/forbole/juno/v5/types"
 )
 
 var _ modules.Module = &Module{}
@@ -31,8 +29,4 @@ func NewModule(
 
 func (m *Module) Name() string {
 	return "resources"
-}
-
-func (m *Module) HandleMsg(_ int, msg sdk.Msg, tx *types.Tx) error {
-	return HandleMsg(tx, msg, m.db)
 }
