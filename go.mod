@@ -1,6 +1,6 @@
-module github.com/cybercongress/cyberindex/v3
+module github.com/cybercongress/cyberindex/v1
 
-go 1.22.2
+go 1.18
 
 require (
 	github.com/CosmWasm/wasmd v0.28.0
@@ -9,9 +9,9 @@ require (
 	github.com/forbole/bdjuno/v3 v3.2.0
 	github.com/forbole/juno/v3 v3.4.0
 	github.com/go-co-op/gocron v1.16.1
+	github.com/gravity-devs/liquidity v1.5.0
 	github.com/lib/pq v1.10.6
 	github.com/rs/zerolog v1.27.0
-	github.com/tendermint/liquidity v1.5.0
 	github.com/tendermint/tendermint v0.34.21
 	google.golang.org/grpc v1.49.0
 )
@@ -63,7 +63,6 @@ require (
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/gravity-devs/liquidity v1.5.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.0.1 // indirect

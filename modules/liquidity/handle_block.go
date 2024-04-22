@@ -3,10 +3,10 @@ package liquidity
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/cybercongress/cyberindex/v3/database"
+	dbtypes "github.com/cybercongress/cyberindex/v1/database"
 	"github.com/forbole/juno/v3/types"
+	liquiditytypes "github.com/gravity-devs/liquidity/x/liquidity/types"
 	"github.com/rs/zerolog/log"
-	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
 	abcitypes "github.com/tendermint/tendermint/abci/types"
 	"strconv"
 	"strings"

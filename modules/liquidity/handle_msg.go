@@ -2,10 +2,10 @@ package liquidity
 
 import (
 	"fmt"
-	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v1/database"
 	"github.com/forbole/bdjuno/v3/modules/utils"
+	liquiditytypes "github.com/gravity-devs/liquidity/x/liquidity/types"
 	"github.com/rs/zerolog/log"
-	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/forbole/juno/v3/types"

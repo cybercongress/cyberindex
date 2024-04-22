@@ -1,7 +1,7 @@
 package source
 
 import (
-	"github.com/tendermint/liquidity/x/liquidity/types"
+	"github.com/gravity-devs/liquidity/x/liquidity/types"
 )
 
 type Source interface {
