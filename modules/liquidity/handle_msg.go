@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/cybercongress/cyberindex/v3/database"
 	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
-	"github.com/forbole/bdjuno/v4/modules/utils"
+	"github.com/forbole/callisto/v4/modules/utils"
 	"github.com/rs/zerolog/log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

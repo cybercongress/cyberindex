@@ -1,6 +1,6 @@
 package liquidity
 
-import "github.com/forbole/bdjuno/v4/types"
+import "github.com/forbole/callisto/v4/types"
 
 type BankModule interface {
 	RefreshBalances(height int64, addresses []string) error

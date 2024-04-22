@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/lib/pq"
 
-	"github.com/forbole/bdjuno/v4/types"
+	"github.com/forbole/callisto/v4/types"
 )
 
 // SaveAccountBalances allows to store the given balances inside the database
@@ -55,7 +55,7 @@ ON CONFLICT (address) DO UPDATE
 	    height = excluded.height 
 WHERE account_balance.height <= excluded.height`
 
-	_, err := db.Sql.Exec(stmt, params...)
+	_, err := db.SQL.Exec(stmt, params...)
 	if err != nil {
 		return fmt.Errorf("error while storing up-to-date balances: %s", err)
 	}
@@ -92,7 +92,7 @@ ON CONFLICT (one_row_id) DO UPDATE
     	height = excluded.height
 WHERE supply.height <= excluded.height`
 
-	_, err := db.Sql.Exec(query, pq.Array(types2.NewDbCoins(coins)), height)
+	_, err := db.SQL.Exec(query, pq.Array(types2.NewDbCoins(coins)), height)
 	if err != nil {
 		return fmt.Errorf("error while storing supply: %s", err)
 	}

@@ -5,14 +5,14 @@ go 1.22
 toolchain go1.22.2
 
 require (
-	cosmossdk.io/simapp v0.0.0-20230712090904-031162fbb96e
 	github.com/CosmWasm/wasmd v0.45.0
 	github.com/cometbft/cometbft v0.37.5
 	github.com/cosmos/cosmos-sdk v0.47.10
-	github.com/cybercongress/go-cyber/v4 v4.0.0-rc1
-	github.com/forbole/bdjuno/v4 v4.0.0
+	github.com/cybercongress/go-cyber/v4 v4.0.0-rc1.0.20240422052727-5b19a860705c
+	github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414
 	github.com/forbole/juno/v5 v5.3.0
 	github.com/go-co-op/gocron v1.37.0
+	github.com/gogo/protobuf v1.3.3
 	github.com/lib/pq v1.10.9
 	github.com/rs/zerolog v1.32.0
 	google.golang.org/grpc v1.61.0
@@ -30,6 +30,7 @@ require (
 	cosmossdk.io/errors v1.0.1 // indirect
 	cosmossdk.io/log v1.3.1 // indirect
 	cosmossdk.io/math v1.3.0 // indirect
+	cosmossdk.io/simapp v0.0.0-20230712090904-031162fbb96e // indirect
 	cosmossdk.io/tools/rosetta v0.2.1 // indirect
 	filippo.io/edwards25519 v1.0.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
@@ -85,7 +86,6 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/godbus/dbus v0.0.0-20190726142602-4481cbc300e2 // indirect
 	github.com/gogo/googleapis v1.4.1 // indirect
-	github.com/gogo/protobuf v1.3.3 // indirect
 	github.com/golang/glog v1.1.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/mock v1.6.0 // indirect
@@ -156,7 +156,6 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	github.com/proullon/ramsql v0.1.3 // indirect
 	github.com/rakyll/statik v0.1.7 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/robfig/cron/v3 v3.0.1 // indirect
@@ -165,7 +164,6 @@ require (
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
@@ -197,7 +195,6 @@ require (
 	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
-	golang.org/x/tools v0.14.0 // indirect
 	google.golang.org/api v0.153.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto v0.0.0-20240102182953-50ed04b92917 // indirect
@@ -213,7 +210,7 @@ require (
 )
 
 replace (
-	github.com/forbole/bdjuno => github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414
+	//github.com/forbole/bdjuno/v4 => github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53
 )

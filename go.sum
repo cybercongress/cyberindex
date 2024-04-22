@@ -419,8 +419,8 @@ github.com/creachadair/taskgroup v0.4.2 h1:jsBLdAJE42asreGss2xZGZ8fJra7WtwnHWeJF
 github.com/creachadair/taskgroup v0.4.2/go.mod h1:qiXUOSrbwAY3u0JPGTzObbE3yf9hcXHDKBZ2ZjpCbgM=
 github.com/creack/pty v1.1.7/go.mod h1:lj5s0c3V2DBrqTV7llrYr5NG6My20zk30Fl46Y7DoTY=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
-github.com/cybercongress/go-cyber/v4 v4.0.0-rc1 h1:SQ8VBBxLJjHX87FuSiWAkBH53hBoCIf5MM0Moclj9E8=
-github.com/cybercongress/go-cyber/v4 v4.0.0-rc1/go.mod h1:eTLlWZgnHKLmev4mMGdPoGqvqfceI/bj8WbqZGgjxC0=
+github.com/cybercongress/go-cyber/v4 v4.0.0-rc1.0.20240422052727-5b19a860705c h1:3NT5jkjWQ9eSc0x/jcDdCKf/e8CaHdiehGKfblEvq0Q=
+github.com/cybercongress/go-cyber/v4 v4.0.0-rc1.0.20240422052727-5b19a860705c/go.mod h1:9UhiSCoWj+fOwDU6kvhZXaW9CnhUzhXY9Gfnoim/qc0=
 github.com/cyberdelia/templates v0.0.0-20141128023046-ca7fffd4298c/go.mod h1:GyV+0YP4qX0UQ7r2MoYZ+AvYDp12OF5yg4q8rGnyNh4=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
@@ -495,8 +495,8 @@ github.com/felixge/httpsnoop v1.0.2 h1:+nS9g82KMXccJ/wp0zyRW9ZBHFETmMGtkk+2CTTrW
 github.com/felixge/httpsnoop v1.0.2/go.mod h1:m8KPJKqk1gH5J9DgRY2ASl2lWCfGKXixSwevea8zH2U=
 github.com/fjl/memsize v0.0.0-20190710130421-bcb5799ab5e5/go.mod h1:VvhXpOYNQvB+uIk2RvXzuaQtkQJzzIx6lSBe1xv7hi0=
 github.com/fogleman/gg v1.2.1-0.20190220221249-0403632d5b90/go.mod h1:R/bRT+9gY/C5z7JzPU0zXsXHKM4/ayA+zqcVNZzPa1k=
-github.com/forbole/bdjuno/v4 v4.0.0 h1:cV7oNLbdNAiS+TZDkhUh+Po8Ncyk0Nkoc2nha3rgsXQ=
-github.com/forbole/bdjuno/v4 v4.0.0/go.mod h1:lJwQlrLMnHpXUplFaAvTnrnPCstXDNRfaG38iwnjLaY=
+github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414 h1:xgbgURUgZqwEtc93d9QaY9qZ7/asvaYFPjNcs3s3XTA=
+github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414/go.mod h1:a6jIU2YKrt8WY6wrjR4muy9OlP418d7UUKqv4e8BBRA=
 github.com/forbole/juno/v5 v5.3.0 h1:C9YpB7kTFAJqDqtgpSYlJfdoJLJMy+hqYLi8NdcU/VU=
 github.com/forbole/juno/v5 v5.3.0/go.mod h1:XHTUsu81JTPEDvVrVgirag5pkV5sDBSdEUluBtJdFfk=
 github.com/fortytw2/leaktest v1.3.0 h1:u8491cBMTQ8ft8aeV+adlcytMZylmA5nnwwkRZjI8vw=
@@ -1547,7 +1547,6 @@ golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.0.0-20220610221304-9f5ed59c137d/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220615213510-4f61da869c0c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220624220833-87e55d714810/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
-golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=

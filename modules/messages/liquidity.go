@@ -4,9 +4,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
-	junomessages "github.com/forbole/juno/v5/modules/messages"
 )
 
+// Deprecated: use CyberMessageAddressesParser
 func LiquidityMessageAddressesParser(cdc codec.Codec, liquidityMsg sdk.Msg) ([]string, error) {
 	switch msg := liquidityMsg.(type) {
 	case *liquiditytypes.MsgCreatePool:
@@ -22,5 +22,6 @@ func LiquidityMessageAddressesParser(cdc codec.Codec, liquidityMsg sdk.Msg) ([]s
 		return []string{msg.WithdrawerAddress}, nil
 	}
 
-	return nil, junomessages.MessageNotSupported(liquidityMsg)
+	//return nil, junomessages.MessageNotSupported(liquidityMsg)
+	return nil, nil
 }

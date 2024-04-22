@@ -2,17 +2,14 @@ package remote
 
 import (
 	"fmt"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
-	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/forbole/juno/v5/node/remote"
 
-	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	bankkeeper "github.com/cybercongress/cyberindex/v3/modules/bank/source"
-	"github.com/forbole/bdjuno/v4/types"
+	bankkeeper "github.com/forbole/callisto/v4/modules/bank/source"
+	"github.com/forbole/callisto/v4/types"
 )
 
 var (
@@ -34,11 +31,11 @@ func NewSource(source *remote.Source, bankClient banktypes.QueryClient) *Source 
 
 // GetBalances implements bankkeeper.Source
 func (s Source) GetBalances(addresses []string, height int64) ([]types.AccountBalance, error) {
-	header := GetHeightRequestHeader(height)
+	ctx := remote.GetHeightRequestContext(s.Ctx, height)
 
 	var balances []types.AccountBalance
 	for _, address := range addresses {
-		balRes, err := s.bankClient.AllBalances(s.Ctx, &banktypes.QueryAllBalancesRequest{Address: address}, header)
+		balRes, err := s.bankClient.AllBalances(ctx, &banktypes.QueryAllBalancesRequest{Address: address})
 		if err != nil {
 			return nil, fmt.Errorf("error while getting all balances: %s", err)
 		}
@@ -55,19 +52,28 @@ func (s Source) GetBalances(addresses []string, height int64) ([]types.AccountBa
 
 // GetSupply implements bankkeeper.Source
 func (s Source) GetSupply(height int64) (sdk.Coins, error) {
-	header := GetHeightRequestHeader(height)
-	res, err := s.bankClient.TotalSupply(s.Ctx, &banktypes.QueryTotalSupplyRequest{}, header)
-	if err != nil {
-		return nil, fmt.Errorf("error while getting total supply: %s", err)
+	ctx := remote.GetHeightRequestContext(s.Ctx, height)
+
+	var coins []sdk.Coin
+	var nextKey []byte
+	var stop = false
+	for !stop {
+		res, err := s.bankClient.TotalSupply(
+			ctx,
+			&banktypes.QueryTotalSupplyRequest{
+				Pagination: &query.PageRequest{
+					Key:   nextKey,
+					Limit: 100, // Query 100 supplies at time
+				},
+			})
+		if err != nil {
+			return nil, fmt.Errorf("error while getting total supply: %s", err)
+		}
+
+		nextKey = res.Pagination.NextKey
+		stop = len(res.Pagination.NextKey) == 0
+		coins = append(coins, res.Supply...)
 	}
 
-	return res.Supply, nil
-}
-
-// TODO move outside to utils
-func GetHeightRequestHeader(height int64) grpc.CallOption {
-	header := metadata.New(map[string]string{
-		grpctypes.GRPCBlockHeightHeader: strconv.FormatInt(height, 10),
-	})
-	return grpc.Header(&header)
+	return coins, nil
 }

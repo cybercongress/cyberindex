@@ -4,14 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 
-	authutils "github.com/forbole/bdjuno/v4/modules/auth"
+	authutils "github.com/forbole/callisto/v4/modules/auth"
 
 	tmtypes "github.com/cometbft/cometbft/types"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/rs/zerolog/log"
 
-	"github.com/forbole/bdjuno/v4/types"
+	"github.com/forbole/callisto/v4/types"
 )
 
 // HandleGenesis implements modules.GenesisModule

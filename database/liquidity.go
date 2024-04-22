@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	bddbtypes "github.com/forbole/bdjuno/v4/database/types"
+	bddbtypes "github.com/forbole/callisto/v4/database/types"
 	"time"
 )
 
@@ -19,7 +19,7 @@ func (db *CyberDb) SavePool(
 INSERT INTO pools (pool_id, pool_name, address, a_denom, b_denom, pool_denom) 
 VALUES ($1, $2, $3, $4, $5, $6)`
 
-	_, err := db.Sql.Exec(
+	_, err := db.SQL.Exec(
 		stmt,
 		poolID,
 		name,
@@ -64,7 +64,7 @@ VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 	if err != nil {
 		return fmt.Errorf("error while converting coin to dbcoin: %s", err)
 	}
-	_, err = db.Sql.Exec(
+	_, err = db.SQL.Exec(
 		stmt,
 		poolID,
 		address,
@@ -87,7 +87,7 @@ func (db *CyberDb) SaveLiquidity(
 	stmt := `
 INSERT INTO pools_liquidity (pool_id, liquidity_a, liquidity_b, timestamp) 
 VALUES ($1, $2, $3, $4)`
-	_, err := db.Sql.Exec(
+	_, err := db.SQL.Exec(
 		stmt,
 		poolID,
 		liquidityA.Amount.String(),
@@ -108,7 +108,7 @@ func (db *CyberDb) SaveVolume(
 	stmt := `
 INSERT INTO pools_volumes (pool_id, volume_a, volume_b, fee_a, fee_b, timestamp) 
 VALUES ($1, $2, $3, $4, $5, $6)`
-	_, err := db.Sql.Exec(
+	_, err := db.SQL.Exec(
 		stmt,
 		poolID,
 		volumeA.Amount.String(),
@@ -128,7 +128,7 @@ func (db *CyberDb) SaveRate(
 	stmt := `
 INSERT INTO pools_rates (pool_id, rate, timestamp) 
 VALUES ($1, $2, $3)`
-	_, err := db.Sql.Exec(
+	_, err := db.SQL.Exec(
 		stmt,
 		poolID,
 		rate.String(),

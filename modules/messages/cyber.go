@@ -1,15 +1,14 @@
 package messages
 
 import (
-	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	graphtypes "github.com/cybercongress/go-cyber/v4/x/graph/types"
 	gridtypes "github.com/cybercongress/go-cyber/v4/x/grid/types"
 	resourcestypes "github.com/cybercongress/go-cyber/v4/x/resources/types"
-	junomessages "github.com/forbole/juno/v5/modules/messages"
 )
 
-func CyberMessageAddressesParser(cdc codec.Codec, cyberMsg sdk.Msg) ([]string, error) {
+// Deprecated: use CyberMessageAddressesParser
+func CyberMessageAddressesParser(cyberMsg sdk.Msg) ([]string, error) {
 	switch msg := cyberMsg.(type) {
 
 	case *graphtypes.MsgCyberlink:
@@ -31,5 +30,6 @@ func CyberMessageAddressesParser(cdc codec.Codec, cyberMsg sdk.Msg) ([]string, e
 		return []string{msg.Neuron}, nil
 	}
 
-	return nil, junomessages.MessageNotSupported(cyberMsg)
+	//return nil, return fmt.Errorf("message type not supported: %s", proto.MessageName(msg))
+	return nil, nil
 }

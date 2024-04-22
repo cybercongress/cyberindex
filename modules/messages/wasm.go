@@ -4,9 +4,9 @@ import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	junomessages "github.com/forbole/juno/v5/modules/messages"
 )
 
+// Deprecated: use CyberMessageAddressesParser
 func WasmMessageAddressesParser(cdc codec.Codec, wasmMsg sdk.Msg) ([]string, error) {
 	switch msg := wasmMsg.(type) {
 	case *wasmtypes.MsgStoreCode:
@@ -28,5 +28,6 @@ func WasmMessageAddressesParser(cdc codec.Codec, wasmMsg sdk.Msg) ([]string, err
 		return []string{msg.Sender}, nil
 	}
 
-	return nil, junomessages.MessageNotSupported(wasmMsg)
+	//return nil, junomessages.MessageNotSupported(wasmMsg)
+	return nil, nil
 }

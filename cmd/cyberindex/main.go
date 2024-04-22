@@ -2,30 +2,28 @@ package main
 
 import (
 	"github.com/cybercongress/cyberindex/v3/modules"
-	"github.com/forbole/bdjuno/v4/types/config"
-	"github.com/forbole/juno/v5/cmd"
-	junomessages "github.com/forbole/juno/v5/modules/messages"
-
-	cybermessages "github.com/cybercongress/cyberindex/v3/modules/messages"
 	cyberapp "github.com/cybercongress/go-cyber/v4/app"
-	"github.com/forbole/bdjuno/v4/database"
+	migratecmd "github.com/forbole/callisto/v4/cmd/migrate"
+	"github.com/forbole/callisto/v4/database"
+	"github.com/forbole/juno/v5/cmd"
 	initcmd "github.com/forbole/juno/v5/cmd/init"
 	parsecmd "github.com/forbole/juno/v5/cmd/parse"
 	parsetypes "github.com/forbole/juno/v5/cmd/parse/types"
 	startcmd "github.com/forbole/juno/v5/cmd/start"
+	junomessages "github.com/forbole/juno/v5/modules/messages"
+	"github.com/forbole/juno/v5/types/params"
 )
 
 func main() {
-	initCfg := initcmd.NewConfig().
-		WithConfigCreator(config.Creator)
-
 	parseCfg := parsetypes.NewConfig().
-		WithDBBuilder(database.Builder).
-		WithEncodingConfigBuilder(cyberapp.MakeTestEncodingConfig).
-		WithRegistrar(modules.NewRegistrar(getAddressesParser()))
+		WithRegistrar(modules.NewRegistrar(getAddressesParser())).
+		WithEncodingConfigBuilder(func() params.EncodingConfig {
+			config := cyberapp.MakeEncodingConfig()
+			return params.EncodingConfig(config)
+		}).
+		WithDBBuilder(database.Builder)
 
 	cfg := cmd.NewConfig("cyberindex").
-		WithInitConfig(initCfg).
 		WithParseConfig(parseCfg)
 
 	rootCmd := cmd.RootCmd(cfg.GetName())
@@ -34,6 +32,7 @@ func main() {
 		cmd.VersionCmd(),
 		initcmd.NewInitCmd(cfg.GetInitConfig()),
 		parsecmd.NewParseCmd(cfg.GetParseConfig()),
+		migratecmd.NewMigrateCmd(cfg.GetName(), cfg.GetParseConfig()),
 		startcmd.NewStartCmd(cfg.GetParseConfig()),
 	)
 
@@ -47,8 +46,8 @@ func main() {
 func getAddressesParser() junomessages.MessageAddressesParser {
 	return junomessages.JoinMessageParsers(
 		junomessages.CosmosMessageAddressesParser,
-		cybermessages.CyberMessageAddressesParser,
-		cybermessages.WasmMessageAddressesParser,
-		cybermessages.LiquidityMessageAddressesParser,
+		//cybermessages.CyberMessageAddressesParser,
+		//cybermessages.WasmMessageAddressesParser,
+		//cybermessages.LiquidityMessageAddressesParser,
 	)
 }
