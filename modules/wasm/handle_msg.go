@@ -3,8 +3,8 @@ package wasm
 import (
 	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cybercongress/cyberindex/v2/database"
-	cybertypes "github.com/cybercongress/cyberindex/v2/database/types"
+	"github.com/cybercongress/cyberindex/v3/database"
+	cybertypes "github.com/cybercongress/cyberindex/v3/database/types"
 	"github.com/forbole/juno/v3/types"
 )
 
