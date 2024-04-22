@@ -3,8 +3,8 @@ package messages
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	junomessages "github.com/forbole/juno/v3/modules/messages"
-	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
+	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
+	junomessages "github.com/forbole/juno/v5/modules/messages"
 )
 
 func LiquidityMessageAddressesParser(cdc codec.Codec, liquidityMsg sdk.Msg) ([]string, error) {

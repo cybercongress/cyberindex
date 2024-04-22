@@ -8,11 +8,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/forbole/juno/v3/node/remote"
+	"github.com/forbole/juno/v5/node/remote"
 
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	bankkeeper "github.com/cybercongress/cyberindex/v2/modules/bank/source"
-	"github.com/forbole/bdjuno/v3/types"
+	bankkeeper "github.com/cybercongress/cyberindex/v3/modules/bank/source"
+	"github.com/forbole/bdjuno/v4/types"
 )
 
 var (

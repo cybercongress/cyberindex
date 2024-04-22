@@ -2,10 +2,10 @@ package bank
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 	"github.com/rs/zerolog/log"
 
-	"github.com/forbole/bdjuno/v3/modules/utils"
+	"github.com/forbole/bdjuno/v4/modules/utils"
 )
 
 // HandleMsg implements modules.MessageModule

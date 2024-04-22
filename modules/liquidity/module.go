@@ -2,13 +2,13 @@ package liquidity
 
 import (
 	"fmt"
+	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v2/database"
-	"github.com/cybercongress/cyberindex/v2/modules/liquidity/source"
-	"github.com/forbole/juno/v3/modules"
-	"github.com/forbole/juno/v3/modules/messages"
-	"github.com/forbole/juno/v3/types"
-	coretypes "github.com/tendermint/tendermint/rpc/core/types"
+	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v3/modules/liquidity/source"
+	"github.com/forbole/juno/v5/modules"
+	"github.com/forbole/juno/v5/modules/messages"
+	"github.com/forbole/juno/v5/types"
 )
 
 var (

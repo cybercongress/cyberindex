@@ -2,12 +2,12 @@ package liquidity
 
 import (
 	"fmt"
+	abcitypes "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/cybercongress/cyberindex/v2/database"
-	"github.com/forbole/juno/v3/types"
+	dbtypes "github.com/cybercongress/cyberindex/v3/database"
+	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
+	"github.com/forbole/juno/v5/types"
 	"github.com/rs/zerolog/log"
-	liquiditytypes "github.com/tendermint/liquidity/x/liquidity/types"
-	abcitypes "github.com/tendermint/tendermint/abci/types"
 	"strconv"
 	"strings"
 	"time"

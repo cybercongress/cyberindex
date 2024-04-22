@@ -2,13 +2,13 @@ package bank
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v2/database"
-	"github.com/cybercongress/cyberindex/v2/modules/bank/source"
-	"github.com/forbole/bdjuno/v3/types"
+	"github.com/cybercongress/cyberindex/v3/database"
+	"github.com/cybercongress/cyberindex/v3/modules/bank/source"
+	"github.com/forbole/bdjuno/v4/types"
 
-	junomessages "github.com/forbole/juno/v3/modules/messages"
+	junomessages "github.com/forbole/juno/v5/modules/messages"
 
-	"github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v5/modules"
 )
 
 var (

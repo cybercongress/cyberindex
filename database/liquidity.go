@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	bddbtypes "github.com/forbole/bdjuno/v3/database/types"
+	bddbtypes "github.com/forbole/bdjuno/v4/database/types"
 	"time"
 )
 

@@ -1,18 +1,18 @@
 package main
 
 import (
-	"github.com/cybercongress/cyberindex/v2/modules"
-	"github.com/forbole/bdjuno/v3/types/config"
-	"github.com/forbole/juno/v3/cmd"
-	junomessages "github.com/forbole/juno/v3/modules/messages"
+	"github.com/cybercongress/cyberindex/v3/modules"
+	"github.com/forbole/bdjuno/v4/types/config"
+	"github.com/forbole/juno/v5/cmd"
+	junomessages "github.com/forbole/juno/v5/modules/messages"
 
-	cybermessages "github.com/cybercongress/cyberindex/v2/modules/messages"
-	cyberapp "github.com/cybercongress/go-cyber/v2/app"
-	"github.com/forbole/bdjuno/v3/database"
-	initcmd "github.com/forbole/juno/v3/cmd/init"
-	parsecmd "github.com/forbole/juno/v3/cmd/parse"
-	parsetypes "github.com/forbole/juno/v3/cmd/parse/types"
-	startcmd "github.com/forbole/juno/v3/cmd/start"
+	cybermessages "github.com/cybercongress/cyberindex/v3/modules/messages"
+	cyberapp "github.com/cybercongress/go-cyber/v4/app"
+	"github.com/forbole/bdjuno/v4/database"
+	initcmd "github.com/forbole/juno/v5/cmd/init"
+	parsecmd "github.com/forbole/juno/v5/cmd/parse"
+	parsetypes "github.com/forbole/juno/v5/cmd/parse/types"
+	startcmd "github.com/forbole/juno/v5/cmd/start"
 )
 
 func main() {

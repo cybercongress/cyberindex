@@ -1,7 +1,7 @@
 package database
 
 import (
-	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
+	graphtypes "github.com/cybercongress/go-cyber/v4/x/graph/types"
 )
 
 func (db *CyberDb) SaveCyberlinks(

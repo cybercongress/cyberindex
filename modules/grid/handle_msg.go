@@ -2,11 +2,11 @@ package grid
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	gridtypes "github.com/cybercongress/go-cyber/v2/x/grid/types"
+	gridtypes "github.com/cybercongress/go-cyber/v4/x/grid/types"
 
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 
-	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v3/database"
 )
 
 func HandleMsg(

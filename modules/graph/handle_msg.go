@@ -2,11 +2,11 @@ package graph
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
+	graphtypes "github.com/cybercongress/go-cyber/v4/x/graph/types"
 
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 
-	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v3/database"
 )
 
 func HandleMsg(

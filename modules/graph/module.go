@@ -4,7 +4,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v3/database"
 	"github.com/forbole/juno/v3/modules"
 	"github.com/forbole/juno/v3/modules/messages"
 	"github.com/forbole/juno/v3/types"
