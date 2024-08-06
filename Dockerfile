@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04 as builder
 
-ENV GO_VERSION '1.18.10'
+ENV GO_VERSION '1.22.2'
 ENV GO_ARCH 'linux-amd64'
-ENV GO_BIN_SHA '5e05400e4c79ef5394424c0eff5b9141cb782da25f64f79d54c98af0a37f8d49'
+ENV GO_BIN_SHA '5901c52b7a78002aeff14a21f93e0f064f74ce1360fce51c6ee68cd471216a17'
 
 WORKDIR /app
 
@@ -19,10 +19,24 @@ ENV PATH="/usr/local/go/bin:$PATH"
 
 COPY . .
 
-RUN make build
+ADD https://github.com/CosmWasm/wasmvm/releases/download/v1.5.0/libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.a
 
-RUN cp ./build/cyberindex /usr/local/bin/
+RUN go mod download
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN LINK_STATICALLY=true BUILD_TAGS="muslc" make build
 
-CMD ["./start_script.sh"]
+FROM ubuntu:22.04 
+
+RUN apt-get update && apt-get install -y --no-install-recommends  build-essential ca-certificates
+
+WORKDIR /app
+
+COPY --from=builder /app/build/cyberindex /usr/bin/cyberindex
+
+#COPY --from=builder /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.0/internal/api/libwasmvm.x86_64.so /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.0/internal/api/libwasmvm.x86_64.so
+
+COPY ./entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["cyberindex", "start"]
