@@ -506,6 +506,7 @@ github.com/fjl/memsize v0.0.0-20190710130421-bcb5799ab5e5/go.mod h1:VvhXpOYNQvB+
 github.com/fogleman/gg v1.2.1-0.20190220221249-0403632d5b90/go.mod h1:R/bRT+9gY/C5z7JzPU0zXsXHKM4/ayA+zqcVNZzPa1k=
 github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414 h1:xgbgURUgZqwEtc93d9QaY9qZ7/asvaYFPjNcs3s3XTA=
 github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414/go.mod h1:a6jIU2YKrt8WY6wrjR4muy9OlP418d7UUKqv4e8BBRA=
+github.com/forbole/callisto/v4 v4.0.1-0.20240621054943-868bbd5cbb88/go.mod h1:a6jIU2YKrt8WY6wrjR4muy9OlP418d7UUKqv4e8BBRA=
 github.com/forbole/juno/v5 v5.3.0 h1:C9YpB7kTFAJqDqtgpSYlJfdoJLJMy+hqYLi8NdcU/VU=
 github.com/forbole/juno/v5 v5.3.0/go.mod h1:XHTUsu81JTPEDvVrVgirag5pkV5sDBSdEUluBtJdFfk=
 github.com/fortytw2/leaktest v1.3.0 h1:u8491cBMTQ8ft8aeV+adlcytMZylmA5nnwwkRZjI8vw=

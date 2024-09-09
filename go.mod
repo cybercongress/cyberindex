@@ -7,7 +7,7 @@ require (
 	github.com/cometbft/cometbft v0.37.8
 	github.com/cosmos/cosmos-sdk v0.47.12
 	github.com/cybercongress/go-cyber/v4 v4.0.0-rc3
-	github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414
+	github.com/forbole/callisto/v4 v4.0.1-0.20240621054943-868bbd5cbb88
 	github.com/forbole/juno/v5 v5.3.0
 	github.com/go-co-op/gocron v1.37.0
 	github.com/lib/pq v1.10.9
