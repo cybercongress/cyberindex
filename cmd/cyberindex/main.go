@@ -5,6 +5,7 @@ import (
 	cyberapp "github.com/cybercongress/go-cyber/v4/app"
 	migratecmd "github.com/forbole/callisto/v4/cmd/migrate"
 	"github.com/forbole/callisto/v4/database"
+	"github.com/forbole/callisto/v4/types/config"
 	"github.com/forbole/juno/v5/cmd"
 	initcmd "github.com/forbole/juno/v5/cmd/init"
 	parsecmd "github.com/forbole/juno/v5/cmd/parse"
@@ -15,15 +16,18 @@ import (
 )
 
 func main() {
+	initCfg := initcmd.NewConfig().
+		WithConfigCreator(config.Creator)
+
 	parseCfg := parsetypes.NewConfig().
 		WithRegistrar(modules.NewRegistrar(getAddressesParser())).
 		WithEncodingConfigBuilder(func() params.EncodingConfig {
-			config := cyberapp.MakeEncodingConfig()
-			return params.EncodingConfig(config)
+			return params.EncodingConfig(cyberapp.MakeEncodingConfig())
 		}).
 		WithDBBuilder(database.Builder)
 
 	cfg := cmd.NewConfig("cyberindex").
+		WithInitConfig(initCfg).
 		WithParseConfig(parseCfg)
 
 	rootCmd := cmd.RootCmd(cfg.GetName())
@@ -36,7 +40,7 @@ func main() {
 		startcmd.NewStartCmd(cfg.GetParseConfig()),
 	)
 
-	executor := cmd.BuildDefaultExecutor(cfg)
+	executor := cmd.PrepareRootCmd(cfg.GetName(), rootCmd)
 	err := executor.Execute()
 	if err != nil {
 		panic(err)
