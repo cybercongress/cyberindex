@@ -43,3 +43,19 @@ install: go.sum
 	@echo "installing cyberindex binary..."
 	@go install -mod=readonly $(BUILD_FLAGS) ./cmd/cyberindex
 .PHONY: install
+
+###############################################################################
+###                           Tools / Dependencies                          ###
+###############################################################################
+
+go-mod-cache: go.sum
+	@echo "--> Download go modules to local cache"
+	@go mod download
+
+go.sum: go.mod
+	@echo "--> Ensure dependencies have not been modified"
+	go mod verify
+	go mod tidy
+.PHONY: go.sum
+
+.PHONY: go.sum go-mod-cache
