@@ -2,12 +2,21 @@ package graph
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	graphtypes "github.com/cybercongress/go-cyber/v2/x/graph/types"
+	"github.com/cosmos/cosmos-sdk/x/authz"
+	graphtypes "github.com/cybercongress/go-cyber/v4/x/graph/types"
 
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 
-	"github.com/cybercongress/cyberindex/v1/database"
+	"github.com/cybercongress/cyberindex/v2/database"
 )
+
+func (m *Module) HandleMsgExec(index int, _ *authz.MsgExec, _ int, executedMsg sdk.Msg, tx *types.Tx) error {
+	return m.HandleMsg(index, executedMsg, tx)
+}
+
+func (m *Module) HandleMsg(_ int, msg sdk.Msg, tx *types.Tx) error {
+	return HandleMsg(tx, msg, m.db)
+}
 
 func HandleMsg(
 	tx *types.Tx,

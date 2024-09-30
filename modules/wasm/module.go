@@ -2,11 +2,9 @@ package wasm
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cybercongress/cyberindex/v1/database"
-	"github.com/forbole/juno/v3/modules"
-	"github.com/forbole/juno/v3/modules/messages"
-	"github.com/forbole/juno/v3/types"
+	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/forbole/juno/v5/modules"
+	"github.com/forbole/juno/v5/modules/messages"
 )
 
 var (
@@ -34,8 +32,4 @@ func NewModule(
 
 func (m *Module) Name() string {
 	return "wasm"
-}
-
-func (m *Module) HandleMsg(index int, msg sdk.Msg, tx *types.Tx) error {
-	return HandleMsg(tx, index, msg, m.db)
 }

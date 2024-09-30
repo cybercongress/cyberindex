@@ -46,7 +46,7 @@ CREATE OR REPLACE VIEW uptime AS (
     LEFT JOIN _uptime_temp ON validator.consensus_address = _uptime_temp.validator_address
 );
 
-CREATE TABLE genesis
+CREATE TABLE genesis_accounts
 (
     id INT NOT NULL,
     address TEXT   NOT NULL PRIMARY KEY,
@@ -160,7 +160,7 @@ CREATE OR REPLACE VIEW genesis_neurons_activation AS (
     SELECT
         'activated' AS neurons,
         count(*) :: float / 559 * 100 AS count
-    FROM genesis
+    FROM genesis_accounts
     WHERE address in (
         SELECT neuron
         FROM txs_ranked
@@ -169,7 +169,7 @@ CREATE OR REPLACE VIEW genesis_neurons_activation AS (
     SELECT
         'not_activated' AS neurons,
         100 - count(*) :: float / 559 * 100 AS count
-    FROM genesis
+    FROM genesis_accounts
     WHERE address in (
         SELECT neuron
         FROM txs_ranked
@@ -630,7 +630,7 @@ CREATE OR REPLACE VIEW neuron_activation_source AS (
                 week,
                 count(*) AS recieve
             FROM txs_ranked
-            WHERE rank = 1 AND type = 'receive' AND neuron not in (SELECT address FROM genesis)
+            WHERE rank = 1 AND type = 'receive' AND neuron not in (SELECT address FROM genesis_accounts)
             GROUP BY week
         ) send ON activation.week = send.week
         LEFT JOIN (
@@ -638,7 +638,7 @@ CREATE OR REPLACE VIEW neuron_activation_source AS (
                 week,
                 count(*) AS ibc_recieve
             FROM txs_ranked
-            WHERE rank = 1 AND type = 'ibc_receive' AND neuron not in (SELECT address FROM genesis)
+            WHERE rank = 1 AND type = 'ibc_receive' AND neuron not in (SELECT address FROM genesis_accounts)
             GROUP BY week
         ) ibc_receive ON activation.week = ibc_receive.week
         LEFT JOIN (
@@ -646,7 +646,7 @@ CREATE OR REPLACE VIEW neuron_activation_source AS (
                 week,
                 count(*) AS genesis
             FROM txs_ranked
-            WHERE rank = 1 AND neuron in (SELECT address FROM genesis)
+            WHERE rank = 1 AND neuron in (SELECT address FROM genesis_accounts)
             GROUP BY week
         ) genesis ON activation.week = genesis.week
     ) activation_source

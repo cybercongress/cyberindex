@@ -2,13 +2,13 @@ package liquidity
 
 import (
 	"fmt"
-	"github.com/cybercongress/cyberindex/v1/database"
-	"github.com/forbole/bdjuno/v3/modules/utils"
-	liquiditytypes "github.com/gravity-devs/liquidity/x/liquidity/types"
+	"github.com/cybercongress/cyberindex/v2/database"
+	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
+	"github.com/forbole/callisto/v4/modules/utils"
 	"github.com/rs/zerolog/log"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/forbole/juno/v3/types"
+	"github.com/forbole/juno/v5/types"
 )
 
 func (m *Module) HandleMsg(

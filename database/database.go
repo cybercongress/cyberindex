@@ -1,7 +1,7 @@
 package database
 
 import (
-	"github.com/forbole/bdjuno/v3/database"
+	"github.com/forbole/callisto/v4/database"
 )
 
 type CyberDb struct {

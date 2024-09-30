@@ -2,50 +2,50 @@ package bank
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	"github.com/cybercongress/cyberindex/v1/database"
-	"github.com/cybercongress/cyberindex/v1/modules/bank/source"
-	"github.com/forbole/bdjuno/v3/types"
+	"github.com/cybercongress/cyberindex/v2/database"
+	"github.com/cybercongress/cyberindex/v2/modules/bank/source"
+	"github.com/forbole/callisto/v4/types"
+	junomessages "github.com/forbole/juno/v5/modules/messages"
 
-	junomessages "github.com/forbole/juno/v3/modules/messages"
-
-	"github.com/forbole/juno/v3/modules"
+	"github.com/forbole/juno/v5/modules"
 )
 
 var (
-	_ modules.Module        = &Module{}
-	_ modules.GenesisModule = &Module{}
-	_ modules.BlockModule   = &Module{}
-	_ modules.MessageModule = &Module{}
+	_ modules.Module                   = &Module{}
+	_ modules.GenesisModule            = &Module{}
+	_ modules.MessageModule            = &Module{}
+	_ modules.PeriodicOperationsModule = &Module{}
 )
 
-// Module represents the x/bank module
+// Module represents the modules/bank module
 type Module struct {
-	messageParser junomessages.MessageAddressesParser
-	cdc           codec.Codec
-	keeper        source.Source
-	db            *database.CyberDb
-}
+	cdc codec.Codec
+	db  *database.CyberDb
 
-func (m *Module) GetBalances(addresses []string, height int64) ([]types.AccountBalance, error) {
-	return m.keeper.GetBalances(addresses, height)
+	messageParser junomessages.MessageAddressesParser
+	keeper        source.Source
 }
 
 // NewModule returns a new Module instance
 func NewModule(
 	messageParser junomessages.MessageAddressesParser,
-	cdc codec.Codec,
 	keeper source.Source,
+	cdc codec.Codec,
 	db *database.CyberDb,
 ) *Module {
 	return &Module{
-		messageParser: messageParser,
 		cdc:           cdc,
-		keeper:        keeper,
 		db:            db,
+		messageParser: messageParser,
+		keeper:        keeper,
 	}
 }
 
 // Name implements modules.Module
 func (m *Module) Name() string {
 	return "bank"
+}
+
+func (m *Module) GetBalances(addresses []string, height int64) ([]types.AccountBalance, error) {
+	return m.keeper.GetBalances(addresses, height)
 }

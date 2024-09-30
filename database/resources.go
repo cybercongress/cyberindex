@@ -2,7 +2,7 @@ package database
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	dbtypes "github.com/forbole/bdjuno/v3/database/types"
+	dbtypes "github.com/forbole/callisto/v4/database/types"
 )
 
 func (db *CyberDb) SaveInvestmints(
@@ -25,7 +25,7 @@ func (db *CyberDb) SaveInvestmints(
 		return err
 	}
 
-	_, err = db.Sql.Exec(query,
+	_, err = db.SQL.Exec(query,
 		neuron,
 		value,
 		resource,

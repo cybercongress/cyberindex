@@ -3,9 +3,9 @@ package remote
 import (
 	"fmt"
 	grpctypes "github.com/cosmos/cosmos-sdk/types/grpc"
-	liquiditykeeper "github.com/cybercongress/cyberindex/v1/modules/liquidity/source"
-	"github.com/forbole/juno/v3/node/remote"
-	liquiditytypes "github.com/gravity-devs/liquidity/x/liquidity/types"
+	liquiditykeeper "github.com/cybercongress/cyberindex/v2/modules/liquidity/source"
+	liquiditytypes "github.com/cybercongress/go-cyber/v4/x/liquidity/types"
+	"github.com/forbole/juno/v5/node/remote"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"strconv"
