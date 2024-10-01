@@ -6,7 +6,12 @@ CREATE OR REPLACE VIEW _transaction as (
         SELECT *
         FROM transaction
         LEFT JOIN (
-            SELECT * 
+            SELECT
+                transaction_hash,
+                index,
+                type,
+                value,
+                involved_accounts_addresses
             FROM message
         ) as msg ON transaction.hash = msg.transaction_hash
     ) _tx
