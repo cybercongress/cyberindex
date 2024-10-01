@@ -19,11 +19,9 @@ ENV PATH="/usr/local/go/bin:$PATH"
 
 COPY . .
 
-ADD https://github.com/CosmWasm/wasmvm/releases/download/v1.5.0/libwasmvm_muslc.x86_64.a /lib/libwasmvm_muslc.a
-
 RUN go mod download
 
-RUN LINK_STATICALLY=true BUILD_TAGS="muslc" make build
+RUN make build
 
 FROM ubuntu:22.04 
 
@@ -33,7 +31,7 @@ WORKDIR /app
 
 COPY --from=builder /app/build/cyberindex /usr/bin/cyberindex
 
-#COPY --from=builder /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.0/internal/api/libwasmvm.x86_64.so /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.0/internal/api/libwasmvm.x86_64.so
+COPY --from=builder /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.2/internal/api/libwasmvm.x86_64.so /root/go/pkg/mod/github.com/!cosm!wasm/wasmvm@v1.5.2/internal/api/libwasmvm.x86_64.so
 
 COPY ./entrypoint.sh /entrypoint.sh
 
