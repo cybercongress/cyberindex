@@ -6,7 +6,7 @@ require (
 	github.com/CosmWasm/wasmd v0.45.0
 	github.com/cometbft/cometbft v0.37.8
 	github.com/cosmos/cosmos-sdk v0.47.12
-	github.com/cybercongress/go-cyber/v4 v4.0.0
+	github.com/cybercongress/go-cyber/v4 v4.0.3
 	github.com/forbole/callisto/v4 v4.0.1-0.20240621054943-868bbd5cbb88
 	github.com/forbole/juno/v5 v5.3.0
 	github.com/go-co-op/gocron v1.37.0
@@ -215,6 +215,8 @@ require (
 )
 
 replace (
+
+	github.com/cosmos/cosmos-sdk => github.com/cybercongress/cosmos-sdk v0.47.13-0.20241008061625-08d0bd3fa2c4
 	//github.com/forbole/bdjuno/v4 => github.com/forbole/callisto/v4 v4.0.1-0.20240417061251-09f92fab4414
 	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230425010034-47ecfdc1ba53
